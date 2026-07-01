@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local-only agent context (not tracked)
+PROJECT_CONTEXT.md
+CLAUDE.md
+AGENTS.md
