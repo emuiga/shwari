@@ -14,6 +14,7 @@ Frontend for the Shwari Movers marketplace platform, connecting customers with v
 
 ## Modules
 - `auth` — login, registration, OTP verification, forgot/reset password
+- `dashboard` — service marketplace browse/search, compare, and service detail pages (mock data)
 
 ## Commands
 - `npm run dev` — start development server
