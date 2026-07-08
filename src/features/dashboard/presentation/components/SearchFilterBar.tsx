@@ -1,10 +1,26 @@
+'use client';
+
+import { useState } from 'react';
 import { SearchIcon } from '@/features/dashboard/presentation/components/icons';
 import LocationAutocomplete from '@/features/dashboard/presentation/components/LocationAutocomplete';
 import MaskIcon from '@/features/dashboard/presentation/components/MaskIcon';
+import {
+  countActiveFilters,
+  defaultServiceFilters,
+  type ServiceFilters,
+} from '@/features/dashboard/presentation/lib/serviceFilters';
 
-export default function SearchFilterBar() {
+interface SearchFilterBarProps {
+  filters: ServiceFilters;
+  onFiltersChange: (filters: ServiceFilters) => void;
+}
+
+export default function SearchFilterBar({ filters, onFiltersChange }: SearchFilterBarProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const activeCount = countActiveFilters(filters);
+
   return (
-    <div className="flex items-center justify-center gap-3 border-b border-gray-100 bg-gray-50 px-6 py-6">
+    <div className="relative flex items-center justify-center gap-3 border-b border-gray-100 bg-gray-50 px-6 py-6">
       <div className="flex w-full max-w-2xl items-center rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow focus-within:shadow-md">
         <LocationAutocomplete
           label="Moving From"
@@ -26,17 +42,105 @@ export default function SearchFilterBar() {
         </button>
       </div>
 
-      <button
-        type="button"
-        className="flex shrink-0 items-center gap-2 rounded-2xl border border-gray-200 bg-white px-5 py-3.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-      >
-        <MaskIcon
-          label="Filters"
-          maskClassName="[mask-image:url('/icons/filter.png')] [-webkit-mask-image:url('/icons/filter.png')]"
-          className="h-4 w-4"
-        />
-        Filters
-      </button>
+      <div className="relative shrink-0">
+        <button
+          type="button"
+          onClick={() => setIsOpen((open) => !open)}
+          className={`relative flex items-center gap-2 rounded-2xl border px-5 py-3.5 text-sm font-medium shadow-sm ${
+            activeCount > 0
+              ? 'border-green-500 bg-green-50 text-green-600'
+              : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
+          }`}
+        >
+          <MaskIcon
+            label="Filters"
+            maskClassName="[mask-image:url('/icons/filter.png')] [-webkit-mask-image:url('/icons/filter.png')]"
+            className="h-4 w-4"
+          />
+          Filters
+          {activeCount > 0 && (
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500 text-[10px] font-semibold text-white">
+              {activeCount}
+            </span>
+          )}
+        </button>
+
+        {isOpen && (
+          <>
+            <button
+              type="button"
+              aria-label="Close filters"
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 z-10 cursor-default"
+            />
+            <div className="absolute right-0 z-20 mt-2 w-72 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg">
+              <label className="block text-xs font-semibold text-gray-500 uppercase">
+                Price range
+                <select
+                  value={filters.priceRange}
+                  onChange={(event) =>
+                    onFiltersChange({
+                      ...filters,
+                      priceRange: event.target.value as ServiceFilters['priceRange'],
+                    })
+                  }
+                  className="mt-1.5 w-full rounded-md border border-gray-200 px-3 py-2 text-sm font-normal text-gray-700 normal-case focus:border-green-500 focus:outline-none"
+                >
+                  <option value="any">Any price</option>
+                  <option value="under-25k">Under KES 25,000</option>
+                  <option value="25k-40k">KES 25,000 – 40,000</option>
+                  <option value="over-40k">Over KES 40,000</option>
+                </select>
+              </label>
+
+              <label className="mt-4 block text-xs font-semibold text-gray-500 uppercase">
+                Minimum rating
+                <select
+                  value={filters.minRating}
+                  onChange={(event) =>
+                    onFiltersChange({
+                      ...filters,
+                      minRating: event.target.value as ServiceFilters['minRating'],
+                    })
+                  }
+                  className="mt-1.5 w-full rounded-md border border-gray-200 px-3 py-2 text-sm font-normal text-gray-700 normal-case focus:border-green-500 focus:outline-none"
+                >
+                  <option value="any">Any rating</option>
+                  <option value="4.5">4.5 stars & up</option>
+                  <option value="4.0">4.0 stars & up</option>
+                </select>
+              </label>
+
+              <label className="mt-4 block text-xs font-semibold text-gray-500 uppercase">
+                Sort by
+                <select
+                  value={filters.sortBy}
+                  onChange={(event) =>
+                    onFiltersChange({
+                      ...filters,
+                      sortBy: event.target.value as ServiceFilters['sortBy'],
+                    })
+                  }
+                  className="mt-1.5 w-full rounded-md border border-gray-200 px-3 py-2 text-sm font-normal text-gray-700 normal-case focus:border-green-500 focus:outline-none"
+                >
+                  <option value="default">Recommended</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                  <option value="rating-desc">Top rated</option>
+                </select>
+              </label>
+
+              <button
+                type="button"
+                onClick={() => onFiltersChange(defaultServiceFilters)}
+                className="mt-4 w-full rounded-md border border-gray-200 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50"
+              >
+                Reset filters
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

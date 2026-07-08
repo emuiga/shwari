@@ -1,5 +1,9 @@
+'use client';
+
 import Image from 'next/image';
-import { ContactIcon, PhoneIcon } from '@/features/dashboard/presentation/components/icons';
+import { useState } from 'react';
+import { PaperPlaneIcon, PhoneIcon } from '@/features/dashboard/presentation/components/icons';
+import ContactProviderModal from '@/features/dashboard/presentation/components/ContactProviderModal';
 import type { ServiceProvider } from '@/features/dashboard/presentation/lib/mockServices';
 
 interface ProviderPanelProps {
@@ -7,8 +11,14 @@ interface ProviderPanelProps {
 }
 
 export default function ProviderPanel({ provider }: ProviderPanelProps) {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <div className="rounded-2xl border border-gray-200 p-4">
+      {isContactOpen && (
+        <ContactProviderModal provider={provider} onClose={() => setIsContactOpen(false)} />
+      )}
+
       <div className="flex items-center gap-3">
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full">
           <Image src={provider.avatar} alt={provider.name} fill sizes="40px" className="object-cover" />
@@ -28,15 +38,16 @@ export default function ProviderPanel({ provider }: ProviderPanelProps) {
         </div>
       </div>
 
-      <button
-        type="button"
+      <a
+        href="/messages"
         className="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-green-500 py-2.5 text-sm font-semibold text-white hover:bg-green-600"
       >
-        <ContactIcon className="h-4 w-4" />
+        <PaperPlaneIcon className="h-4 w-4" />
         Message
-      </button>
+      </a>
       <button
         type="button"
+        onClick={() => setIsContactOpen(true)}
         className="mt-2 flex w-full items-center justify-center gap-2 rounded-md border border-green-500 py-2.5 text-sm font-semibold text-green-600 hover:bg-green-50"
       >
         <PhoneIcon className="h-4 w-4" />
