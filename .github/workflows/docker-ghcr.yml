@@ -1,9 +1,9 @@
-name: Build, Push and Deploy Kifwa Agents Frontend to GHCR
+name: Build, Push and Deploy MovvAPP Web APP to GHCR
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 permissions:
   contents: read
@@ -28,7 +28,7 @@ jobs:
             exit 1
           fi
           if [ -z "${{ secrets.DOCKER_IMAGE }}" ]; then
-            echo "::error::DOCKER_IMAGE secret is missing (e.g. kifwa-agents-frontend)."
+            echo "::error::DOCKER_IMAGE secret is missing (e.g. movvapp-web-app)."
             exit 1
           fi
           echo "GHCR credentials are configured for user: $GHCR_USERNAME"
