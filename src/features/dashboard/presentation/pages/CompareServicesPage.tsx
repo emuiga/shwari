@@ -5,6 +5,7 @@ import Link from 'next/link';
 import DashboardHeader from '@/features/dashboard/presentation/components/DashboardHeader';
 import { ContactIcon } from '@/features/dashboard/presentation/components/icons';
 import { useCompare } from '@/features/dashboard/presentation/context/CompareContext';
+import { locationLabel } from '@/features/dashboard/presentation/lib/locations';
 import { formatKes } from '@/features/dashboard/presentation/lib/mockServices';
 
 export default function CompareServicesPage() {
@@ -23,10 +24,12 @@ export default function CompareServicesPage() {
           <span className="text-gray-600">Compare</span>
         </nav>
 
-        {compareServices.length === 0 ? (
+        {compareServices.length < 2 ? (
           <div className="rounded-2xl border border-gray-200 py-16 text-center">
             <p className="text-sm text-gray-500">
-              You haven&apos;t added any services to compare yet.
+              {compareServices.length === 0
+                ? "You haven't added any services to compare yet."
+                : 'Add at least one more service to see a comparison.'}
             </p>
             <Link
               href="/dashboard"
@@ -87,7 +90,7 @@ export default function CompareServicesPage() {
                     key={location}
                     className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600"
                   >
-                    {location}
+                    {locationLabel(location)}
                   </span>
                 ))}
               </div>
