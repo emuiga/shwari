@@ -1,4 +1,7 @@
-import Image from 'next/image';
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { PlusIcon } from '@/features/dashboard/presentation/components/icons';
 import MaskIcon from '@/features/dashboard/presentation/components/MaskIcon';
 import ProfileMenu from '@/features/dashboard/presentation/components/ProfileMenu';
@@ -6,14 +9,10 @@ import { getRandomAvatar } from '@/features/dashboard/presentation/lib/avatars';
 
 export default function DashboardHeader() {
   const avatarSrc = getRandomAvatar();
+  const pathname = usePathname() ?? '';
 
   return (
-    <header className="flex items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
-      <div className="flex items-center gap-2">
-        <Image src="/images/moving-truck-green.png" alt="" width={28} height={28} />
-        <span className="font-heading text-lg font-bold text-gray-900">Movvapp</span>
-      </div>
-
+    <header className="flex items-center justify-end border-b border-gray-100 bg-white px-6 py-4">
       <div className="flex items-center gap-2">
         <button
           type="button"
@@ -22,28 +21,36 @@ export default function DashboardHeader() {
         >
           <PlusIcon className="h-4 w-4" />
         </button>
-        <button
-          type="button"
+        <Link
+          href="/saved-providers"
           aria-label="Saved"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50"
+          className={`flex h-9 w-9 items-center justify-center rounded-full border ${
+            pathname.startsWith('/saved-providers')
+              ? 'border-green-100 bg-green-50 text-green-600'
+              : 'border-gray-200 text-gray-500 hover:bg-gray-50'
+          }`}
         >
           <MaskIcon
             label="Saved"
             maskClassName="[mask-image:url('/icons/bookmark.png')] [-webkit-mask-image:url('/icons/bookmark.png')]"
             className="h-4 w-4"
           />
-        </button>
-        <button
-          type="button"
-          aria-label="Share"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50"
+        </Link>
+        <Link
+          href="/messages"
+          aria-label="Messages"
+          className={`flex h-9 w-9 items-center justify-center rounded-full border ${
+            pathname.startsWith('/messages')
+              ? 'border-green-100 bg-green-50 text-green-600'
+              : 'border-gray-200 text-gray-500 hover:bg-gray-50'
+          }`}
         >
           <MaskIcon
-            label="Share"
+            label="Messages"
             maskClassName="[mask-image:url('/icons/send.png')] [-webkit-mask-image:url('/icons/send.png')]"
             className="h-4 w-4"
           />
-        </button>
+        </Link>
         <button
           type="button"
           aria-label="Notifications"

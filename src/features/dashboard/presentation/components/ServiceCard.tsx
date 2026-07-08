@@ -2,8 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ContactIcon } from '@/features/dashboard/presentation/components/icons';
+import { useState } from 'react';
+import { PaperPlaneIcon } from '@/features/dashboard/presentation/components/icons';
+import ContactProviderModal from '@/features/dashboard/presentation/components/ContactProviderModal';
 import { useCompare } from '@/features/dashboard/presentation/context/CompareContext';
+import { locationLabel } from '@/features/dashboard/presentation/lib/locations';
 import {
   formatKes,
   type MovingService,
@@ -21,9 +24,13 @@ export default function ServiceCard({ service }: ServiceCardProps) {
   const { isInCompare, toggleCompare, isCompareFull } = useCompare();
   const selected = isInCompare(service.id);
   const disabled = !selected && isCompareFull;
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+      {isContactOpen && (
+        <ContactProviderModal provider={service.provider} onClose={() => setIsContactOpen(false)} />
+      )}
       <Link href={`/service/${service.id}`} className="relative aspect-[16/9] w-full">
         <Image
           src={service.image}
@@ -48,7 +55,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
               key={location}
               className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600"
             >
-              {location}
+              {locationLabel(location)}
             </span>
           ))}
           {remainingCount > 0 && (
@@ -60,9 +67,10 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
         <button
           type="button"
+          onClick={() => setIsContactOpen(true)}
           className="mt-3 flex w-full items-center justify-center gap-2 rounded-md border border-green-500 py-2 text-sm font-semibold text-green-600 hover:bg-green-50"
         >
-          <ContactIcon className="h-4 w-4" />
+          <PaperPlaneIcon className="h-4 w-4" />
           Contact Provider
         </button>
         <button
@@ -71,8 +79,8 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           disabled={disabled}
           className={
             selected
-              ? 'mt-2 flex w-full items-center justify-center rounded-md bg-gray-100 py-2 text-sm font-semibold text-gray-500'
-              : 'mt-2 flex w-full items-center justify-center rounded-md border border-gray-200 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+              ? 'mt-2 flex w-full items-center justify-center rounded-md border border-green-500 bg-green-50 py-2 text-sm font-semibold text-green-600'
+              : 'mt-2 flex w-full items-center justify-center rounded-md border border-green-500 py-2 text-sm font-semibold text-green-600 hover:bg-green-50 disabled:cursor-not-allowed disabled:opacity-50'
           }
         >
           {selected ? 'Added to Compare' : 'Compare'}
