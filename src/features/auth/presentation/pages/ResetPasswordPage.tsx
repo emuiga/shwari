@@ -42,6 +42,13 @@ function ResetPasswordForm() {
           >
             Request New Link
           </Link>
+
+          <Link
+            href="/login"
+            className="block w-full rounded-md border border-green-500 py-2.5 text-center text-sm font-semibold text-green-600 transition-colors hover:bg-green-50"
+          >
+            Back to Sign In
+          </Link>
         </div>
       </AuthLayout>
     );

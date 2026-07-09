@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import DashboardHeader from '@/features/dashboard/presentation/components/DashboardHeader';
@@ -8,6 +10,8 @@ import SafetyTips from '@/features/dashboard/presentation/components/SafetyTips'
 import ServiceImageGallery from '@/features/dashboard/presentation/components/ServiceImageGallery';
 import ServiceTabs from '@/features/dashboard/presentation/components/ServiceTabs';
 import StarRating from '@/features/dashboard/presentation/components/StarRating';
+import { useSavedServices } from '@/features/dashboard/presentation/context/SavedServicesContext';
+import { locationLabel } from '@/features/dashboard/presentation/lib/locations';
 import {
   formatKes,
   getServiceById,
@@ -20,6 +24,7 @@ interface ServiceDetailPageProps {
 
 export default function ServiceDetailPage({ serviceId }: ServiceDetailPageProps) {
   const service = getServiceById(serviceId);
+  const { isSaved, toggleSaved } = useSavedServices();
 
   if (!service) {
     notFound();
@@ -52,11 +57,18 @@ export default function ServiceDetailPage({ serviceId }: ServiceDetailPageProps)
                 <p className="text-2xl font-bold text-gray-900">{formatKes(service.price)}</p>
                 <div className="flex items-center gap-3 text-gray-400">
                   <StarRating rating={service.rating} reviewCount={service.reviewCount} />
-                  <MaskIcon
-                    label="Save"
-                    maskClassName="[mask-image:url('/icons/bookmark.png')] [-webkit-mask-image:url('/icons/bookmark.png')]"
-                    className="h-4 w-4"
-                  />
+                  <button
+                    type="button"
+                    aria-pressed={isSaved(service.id)}
+                    onClick={() => toggleSaved(service.id)}
+                    className={isSaved(service.id) ? 'text-green-600' : 'hover:text-gray-600'}
+                  >
+                    <MaskIcon
+                      label={isSaved(service.id) ? 'Remove from saved' : 'Save'}
+                      maskClassName="[mask-image:url('/icons/bookmark.png')] [-webkit-mask-image:url('/icons/bookmark.png')]"
+                      className="h-4 w-4"
+                    />
+                  </button>
                   <MoreIcon className="h-4 w-4" />
                 </div>
               </div>
@@ -85,7 +97,7 @@ export default function ServiceDetailPage({ serviceId }: ServiceDetailPageProps)
                     key={location}
                     className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600"
                   >
-                    {location}
+                    {locationLabel(location)}
                   </span>
                 ))}
               </div>

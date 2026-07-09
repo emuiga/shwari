@@ -34,11 +34,15 @@ export default function CompareTray() {
 
       <button
         type="button"
+        disabled={compareServices.length < 2}
         onClick={() => router.push('/compare')}
-        className="mt-4 w-full rounded-md bg-green-500 py-2 text-sm font-semibold text-white hover:bg-green-600"
+        className="mt-4 w-full rounded-md bg-green-500 py-2 text-sm font-semibold text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:bg-gray-300"
       >
         Compare {compareServices.length} Service{compareServices.length > 1 ? 's' : ''}
       </button>
+      {compareServices.length < 2 && (
+        <p className="mt-1.5 text-xs text-gray-400">Add one more service to compare.</p>
+      )}
       <button
         type="button"
         onClick={clearCompare}

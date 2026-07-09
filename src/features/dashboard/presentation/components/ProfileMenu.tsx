@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { ChevronDownIcon } from '@/features/dashboard/presentation/components/icons';
 
@@ -8,7 +9,11 @@ interface ProfileMenuProps {
   avatarSrc: string;
 }
 
-const MENU_ITEMS = ['Profile', 'My Bookings', 'Settings', 'Help Center', 'Log out'];
+const MENU_ITEMS = [
+  { label: 'Profile', href: '/profile' },
+  { label: 'Settings', href: '/settings' },
+  { label: 'Help Center', href: '/help-center' },
+];
 
 export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,15 +56,23 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
           />
           <div className="absolute right-0 z-20 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-1.5 shadow-lg">
             {MENU_ITEMS.map((item) => (
-              <button
-                key={item}
-                type="button"
+              <Link
+                key={item.href}
+                href={item.href}
                 onClick={() => setIsOpen(false)}
                 className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
               >
-                {item}
-              </button>
+                {item.label}
+              </Link>
             ))}
+            <div className="my-1.5 border-t border-gray-100" />
+            <Link
+              href="/login"
+              onClick={() => setIsOpen(false)}
+              className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-50"
+            >
+              Log out
+            </Link>
           </div>
         </>
       )}
