@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import {
   CheckCircleIcon,
+  ChevronLeftIcon,
   ImageIcon,
   MicrophoneIcon,
   MoreIcon,
@@ -16,18 +17,22 @@ interface ChatThreadPanelProps {
   conversation: Conversation | null;
   onSendMessage: (conversationId: string, text: string) => void;
   onMarkCompleted: (conversationId: string) => void;
+  onBack?: () => void;
+  className?: string;
 }
 
 export default function ChatThreadPanel({
   conversation,
   onSendMessage,
   onMarkCompleted,
+  onBack,
+  className = 'flex',
 }: ChatThreadPanelProps) {
   const [draft, setDraft] = useState('');
 
   if (!conversation) {
     return (
-      <div className="flex flex-1 items-start justify-center pt-24">
+      <div className={`${className} flex-1 items-start justify-center pt-24`}>
         <p className="rounded-md bg-gray-50 px-4 py-3 text-sm text-gray-500">
           Select a message to get started with chatting to service providers
         </p>
@@ -44,10 +49,18 @@ export default function ChatThreadPanel({
   }
 
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+    <div className={`${className} flex-1 flex-col`}>
+      <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4 sm:px-6">
         <div className="flex items-center gap-3">
-          <div className="relative h-9 w-9 overflow-hidden rounded-full">
+          <button
+            type="button"
+            aria-label="Back to messages"
+            onClick={onBack}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-gray-50 lg:hidden"
+          >
+            <ChevronLeftIcon className="h-5 w-5" />
+          </button>
+          <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
             <Image
               src={conversation.providerAvatar}
               alt={conversation.providerName}
@@ -56,7 +69,7 @@ export default function ChatThreadPanel({
               className="object-cover"
             />
           </div>
-          <p className="text-sm font-semibold text-gray-900">{conversation.providerName}</p>
+          <p className="truncate text-sm font-semibold text-gray-900">{conversation.providerName}</p>
         </div>
         <button
           type="button"
@@ -67,8 +80,8 @@ export default function ChatThreadPanel({
         </button>
       </div>
 
-      <div className="flex items-center justify-between gap-3 bg-gray-50 px-6 py-3">
-        <div className="flex items-center gap-2 text-sm text-gray-700">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-gray-50 px-4 py-3 sm:px-6">
+        <div className="flex min-w-0 items-center gap-2 text-sm text-gray-700">
           <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-md">
             <Image
               src={conversation.serviceImage}
@@ -78,7 +91,7 @@ export default function ChatThreadPanel({
               className="object-cover"
             />
           </div>
-          <span>{conversation.serviceTitle}</span>
+          <span className="truncate">{conversation.serviceTitle}</span>
         </div>
 
         {conversation.completed ? (
@@ -105,7 +118,7 @@ export default function ChatThreadPanel({
         )}
       </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto px-6 py-6">
+      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-6 sm:px-6">
         {conversation.messages.map((message) => (
           <div
             key={message.id}

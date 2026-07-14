@@ -18,7 +18,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Shwari Movers | The Kenyan Moving Company",
+  title: "Movvapp | The Kenyan Moving Company",
   description:
     "Find, compare, and book vetted moving and transportation service providers across Kenya.",
 };

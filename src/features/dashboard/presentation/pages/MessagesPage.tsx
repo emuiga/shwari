@@ -26,11 +26,14 @@ export default function MessagesPage() {
           conversations={conversations}
           selectedId={selectedId}
           onSelect={handleSelect}
+          className={selectedId ? 'hidden lg:flex' : 'flex'}
         />
         <ChatThreadPanel
           conversation={selectedConversation}
           onSendMessage={sendMessage}
           onMarkCompleted={markCompleted}
+          onBack={() => setSelectedId(null)}
+          className={selectedId ? 'flex' : 'hidden lg:flex'}
         />
       </div>
     </div>

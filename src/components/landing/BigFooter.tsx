@@ -7,7 +7,7 @@ export default function BigFooter() {
     <footer className="relative min-h-[560px] overflow-hidden bg-zinc-950 md:min-h-[680px]">
       <Image
         src="/images/truck1.jpg"
-        alt="Shwari Movers truck on the road"
+        alt="Movvapp truck on the road"
         fill
         sizes="100vw"
         className="object-cover"
@@ -15,7 +15,7 @@ export default function BigFooter() {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40" />
 
       <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-between gap-16 px-6 py-16 sm:px-8 lg:py-20">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl text-center sm:text-left">
           <span className="inline-block text-xs font-semibold tracking-[0.3em] text-green-400 uppercase">
             Ready when you are
           </span>
@@ -30,15 +30,21 @@ export default function BigFooter() {
           </Link>
         </div>
 
+        <p
+          className={`${fighterFont.className} self-center text-center text-4xl text-green-400 sm:text-5xl lg:text-6xl`}
+        >
+          Hama Bila Drama!
+        </p>
+
         <div className="flex flex-col gap-8 border-t border-white/10 pt-8 text-sm text-zinc-300 sm:flex-row sm:items-end sm:justify-between">
           <span className="flex items-center gap-2 font-[family-name:var(--font-heading)] text-lg font-semibold text-white">
             <Image
-              src="/images/moving-truck-green.png"
+              src="/images/moving-truck-full-green.png"
               alt=""
               width={24}
               height={24}
             />
-            Shwari Movers
+            Movvapp
           </span>
           <nav className="flex flex-wrap gap-x-8 gap-y-3">
             <Link href="/login" className="hover:text-white">
@@ -47,20 +53,14 @@ export default function BigFooter() {
             <Link href="/register" className="hover:text-white">
               Sign up
             </Link>
-            <a href="mailto:hello@shwarimovers.com" className="hover:text-white">
-              hello@shwarimovers.com
+            <a href="mailto:hello@movvapp.com" className="hover:text-white">
+              hello@movvapp.com
             </a>
           </nav>
           <span className="text-zinc-500">
-            &copy; {new Date().getFullYear()} Shwari Movers, Kenya.
+            &copy; {new Date().getFullYear()} Movvapp, Kenya.
           </span>
         </div>
-
-        <p
-          className={`${fighterFont.className} self-center text-4xl text-green-400 sm:text-5xl lg:text-6xl`}
-        >
-          Hama Bila Drama!
-        </p>
       </div>
     </footer>
   );

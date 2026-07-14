@@ -28,7 +28,7 @@ const QUOTE_MESSAGE =
 export const conversations: Conversation[] = [
   {
     id: 'conv-1',
-    providerName: 'Shwari Movers',
+    providerName: 'Movvapp',
     providerAvatar: AVATAR,
     serviceTitle: 'Commercial and Office Moving',
     serviceImage: SERVICE_IMAGE,
@@ -48,7 +48,7 @@ export const conversations: Conversation[] = [
   },
   {
     id: 'conv-2',
-    providerName: 'Shwari Movers',
+    providerName: 'Movvapp',
     providerAvatar: AVATAR,
     serviceTitle: 'Commercial and Office Moving',
     serviceImage: SERVICE_IMAGE,

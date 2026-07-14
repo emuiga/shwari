@@ -39,7 +39,7 @@ export interface ServiceSection {
 const CARD_IMAGE = '/images/moving-service.png';
 
 const DEFAULT_PROVIDER: ServiceProvider = {
-  name: 'Shwari Movers',
+  name: 'Movvapp',
   avatar: '/icons/avatars/bear.png',
   verified: true,
   memberSince: '1yr+ on Movvapp',

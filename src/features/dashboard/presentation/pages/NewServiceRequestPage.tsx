@@ -61,7 +61,7 @@ export default function NewServiceRequestPage() {
     <div className="min-h-screen w-full bg-white">
       <DashboardHeader />
 
-      <main className="px-6 py-6">
+      <main className="px-4 py-6 sm:px-6">
         <nav className="mb-6 text-xs text-gray-400">
           <Link href="/service-requests" className="hover:text-gray-600">
             Service Requests
@@ -70,30 +70,31 @@ export default function NewServiceRequestPage() {
           <span className="text-gray-600">New service request</span>
         </nav>
 
-        <div className="mx-auto max-w-3xl rounded-2xl border border-gray-200 p-6">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-gray-200 p-4 sm:p-6">
           <h1 className="text-lg font-bold text-gray-900">Create New Service Request</h1>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
-            <div>
-              <label className="text-xs font-semibold text-gray-500" htmlFor="service-type">
-                Service type
-              </label>
-              <select
-                id="service-type"
-                value={serviceType}
-                onChange={(event) => setServiceType(event.target.value)}
-                className="mt-1 w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:outline-none"
-              >
-                <option value="">select service type</option>
+            <div className="sm:col-span-2">
+              <p className="text-xs font-semibold text-gray-500">Service type</p>
+              <div className="mt-1.5 flex flex-wrap gap-2">
                 {SERVICE_TYPES.map((type) => (
-                  <option key={type} value={type}>
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => setServiceType(type)}
+                    className={`rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors sm:text-sm ${
+                      serviceType === type
+                        ? 'border-green-500 bg-green-50 text-green-600'
+                        : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
                     {type}
-                  </option>
+                  </button>
                 ))}
-              </select>
+              </div>
             </div>
 
-            <div>
+            <div className="sm:col-span-2">
               <label className="text-xs font-semibold text-gray-500" htmlFor="request-date">
                 Request creation date
               </label>
@@ -166,12 +167,12 @@ export default function NewServiceRequestPage() {
             </div>
           </div>
 
-          <div className="mt-6 flex justify-end">
+          <div className="mt-6 flex sm:justify-end">
             <button
               type="button"
               disabled={!canSubmit}
               onClick={handleSubmit}
-              className="rounded-md bg-green-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-md bg-green-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
               Create Service Request
             </button>

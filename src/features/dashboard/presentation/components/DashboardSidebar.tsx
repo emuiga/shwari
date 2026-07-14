@@ -34,7 +34,7 @@ export default function DashboardSidebar() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-40 flex h-screen shrink-0 flex-col border-r border-gray-100 bg-white transition-all duration-300 ${
+      className={`fixed left-0 top-0 z-40 hidden h-screen shrink-0 flex-col border-r border-gray-100 bg-white transition-all duration-300 lg:flex ${
         isOpen ? 'w-60' : 'w-[72px]'
       }`}
     >

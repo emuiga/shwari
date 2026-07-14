@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import AuthLayout from '@/features/auth/presentation/components/AuthLayout';
 import AuthTabs from '@/features/auth/presentation/components/AuthTabs';
 import ProgressBar from '@/features/auth/presentation/components/ProgressBar';
@@ -10,12 +11,17 @@ import AccountDetailsStep, {
 } from '@/features/auth/presentation/components/register/AccountDetailsStep';
 import PasswordSetupStep from '@/features/auth/presentation/components/register/PasswordSetupStep';
 import VerificationStep from '@/features/auth/presentation/components/register/VerificationStep';
+import BusinessDetailsStep from '@/features/auth/presentation/components/register/BusinessDetailsStep';
+import ServicesOfferedStep from '@/features/auth/presentation/components/register/ServicesOfferedStep';
+import type { BusinessDetails, ServicesOffered } from '@/features/auth/presentation/lib/businessProfile';
 
 export type AccountType = 'provider' | 'customer';
 
 const TOTAL_STEPS = 4;
+const BUSINESS_PROFILE_STEPS = 2;
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [accountType, setAccountType] = useState<AccountType | null>(null);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -27,16 +33,43 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [code, setCode] = useState(['', '', '', '']);
+  const [businessDetails, setBusinessDetails] = useState<BusinessDetails>({
+    businessName: '',
+    phone: '',
+    days: [],
+    openingHours: '',
+    closingHours: '',
+    locations: [],
+  });
+  const [servicesOffered, setServicesOffered] = useState<ServicesOffered>({
+    categoryIds: [],
+    description: '',
+  });
 
-  const goToStep = (next: number) =>
-    setStep(Math.min(Math.max(next, 1), TOTAL_STEPS));
+  const maxStep = accountType === 'provider' ? TOTAL_STEPS + BUSINESS_PROFILE_STEPS : TOTAL_STEPS;
+  const goToStep = (next: number) => setStep(Math.min(Math.max(next, 1), maxStep));
+
+  function handleVerify() {
+    if (accountType === 'provider') {
+      goToStep(TOTAL_STEPS + 1);
+    } else {
+      router.push('/dashboard');
+    }
+  }
+
+  function handleBusinessProfileSubmit() {
+    router.push('/provider/dashboard');
+  }
 
   return (
     <AuthLayout>
       <AuthTabs active="register" />
 
       <div className="mt-6 space-y-6">
-        <ProgressBar step={step} totalSteps={TOTAL_STEPS} />
+        <ProgressBar
+          step={step > TOTAL_STEPS ? step - TOTAL_STEPS : step}
+          totalSteps={step > TOTAL_STEPS ? BUSINESS_PROFILE_STEPS : TOTAL_STEPS}
+        />
 
         {step === 1 && (
           <AccountTypeStep
@@ -74,9 +107,24 @@ export default function RegisterPage() {
             code={code}
             onCodeChange={setCode}
             onPrevious={() => goToStep(3)}
-            onVerify={() => {
-              /* TODO: submit verification code once auth API is wired up */
-            }}
+            onVerify={handleVerify}
+          />
+        )}
+
+        {step === TOTAL_STEPS + 1 && (
+          <BusinessDetailsStep
+            details={businessDetails}
+            onChange={setBusinessDetails}
+            onContinue={() => goToStep(TOTAL_STEPS + 2)}
+          />
+        )}
+
+        {step === TOTAL_STEPS + 2 && (
+          <ServicesOfferedStep
+            services={servicesOffered}
+            onChange={setServicesOffered}
+            onPrevious={() => goToStep(TOTAL_STEPS + 1)}
+            onSubmit={handleBusinessProfileSubmit}
           />
         )}
       </div>
