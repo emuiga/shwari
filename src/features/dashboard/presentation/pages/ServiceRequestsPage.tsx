@@ -28,31 +28,32 @@ export default function ServiceRequestsPage() {
   return (
     <div className="min-h-screen w-full bg-white">
       <DashboardHeader />
-      <main className="px-6 py-6">
-      <div className="flex items-center justify-between">
+      <main className="px-4 py-6 sm:px-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-xl font-bold text-gray-900">Service Requests</h1>
 
-        <div className="flex items-center gap-3">
-          <select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value as ServiceRequestStatus | 'All')}
-            className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 focus:outline-none"
-          >
-            {STATUS_FILTERS.map((status) => (
-              <option key={status} value={status}>
-                {status === 'All' ? 'Request status' : status}
-              </option>
-            ))}
-          </select>
+        <Link
+          href="/service-requests/new"
+          className="flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600"
+        >
+          <PlusIcon className="h-4 w-4 shrink-0" />
+          New Service Request
+        </Link>
+      </div>
 
-          <Link
-            href="/service-requests/new"
-            className="flex items-center gap-2 rounded-md bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600"
+      <div className="-mx-4 mt-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0">
+        {STATUS_FILTERS.map((status) => (
+          <button
+            key={status}
+            type="button"
+            onClick={() => setStatusFilter(status)}
+            className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              statusFilter === status ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
           >
-            <PlusIcon className="h-4 w-4" />
-            New Service Request
-          </Link>
-        </div>
+            {status}
+          </button>
+        ))}
       </div>
 
       {filteredRequests.length === 0 ? (

@@ -112,7 +112,7 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-gray-800">Promotions</p>
-                <p className="text-xs text-gray-500">Offers and news from Shwari Movers.</p>
+                <p className="text-xs text-gray-500">Offers and news from Movvapp.</p>
               </div>
               <ToggleSwitch
                 label="Promotions"

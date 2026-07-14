@@ -12,13 +12,13 @@ export default function HeroSection() {
         <nav className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image
-              src="/images/moving-truck-green.png"
+              src="/images/moving-truck-full-green.png"
               alt=""
               width={28}
               height={28}
             />
             <span className="font-[family-name:var(--font-heading)] text-lg font-semibold tracking-tight text-white">
-              Shwari
+              Movvapp
             </span>
           </div>
           <Link
@@ -30,7 +30,7 @@ export default function HeroSection() {
         </nav>
 
         <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <h1 className="animate-rise max-w-4xl font-[family-name:var(--font-heading)] text-6xl leading-[0.95] font-semibold tracking-tight text-white sm:text-7xl lg:text-8xl">
+          <h1 className="animate-rise max-w-4xl font-[family-name:var(--font-heading)] text-4xl leading-[0.95] font-semibold tracking-tight text-white sm:text-7xl lg:text-8xl">
             The Kenyan
             <br />
             <span

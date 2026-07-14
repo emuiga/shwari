@@ -10,10 +10,10 @@ export default function QuoteBand() {
 
           <div className="relative">
             <span className="text-xs font-semibold tracking-[0.3em] text-green-400 uppercase">
-              Why Shwari
+              Why Movvapp
             </span>
             <p className="mt-6 max-w-3xl font-[family-name:var(--font-heading)] text-3xl leading-tight font-medium tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Every listing on Shwari is a{" "}
+              Every listing on Movvapp is a{" "}
               <span className="relative inline-block">
                 vetted, insured
                 <span className="absolute inset-x-0 -bottom-1 h-1 rounded-full bg-green-500" />

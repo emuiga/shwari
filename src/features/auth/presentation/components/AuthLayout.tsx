@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <div className="relative hidden w-1/2 lg:block">
         <Image
           src="/images/login-image.png"
-          alt="Shwari Movers loading a truck"
+          alt="Movvapp loading a truck"
           fill
           priority
           sizes="50vw"

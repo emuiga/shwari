@@ -1,6 +1,6 @@
-# Shwari Movers — Web Frontend
+# Movvapp — Web Frontend
 
-Frontend for the Shwari Movers marketplace platform, connecting customers with vetted moving and transportation service providers.
+Frontend for the Movvapp marketplace platform, connecting customers with vetted moving and transportation service providers.
 
 ## Tech Stack
 - Next.js (App Router), TypeScript

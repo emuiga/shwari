@@ -24,7 +24,7 @@ function buildReview(
     serviceId,
     serviceTitle: service?.title ?? 'Moving service',
     serviceImage: service?.image ?? '/images/moving-service.png',
-    providerName: service?.provider.name ?? 'Shwari Movers',
+    providerName: service?.provider.name ?? 'Movvapp',
     rating,
     date,
     comment,

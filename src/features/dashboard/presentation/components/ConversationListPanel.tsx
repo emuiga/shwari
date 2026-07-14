@@ -11,12 +11,14 @@ interface ConversationListPanelProps {
   conversations: Conversation[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  className?: string;
 }
 
 export default function ConversationListPanel({
   conversations,
   selectedId,
   onSelect,
+  className = 'flex',
 }: ConversationListPanelProps) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
@@ -30,7 +32,7 @@ export default function ConversationListPanel({
     );
 
   return (
-    <aside className="flex w-full max-w-sm shrink-0 flex-col border-r border-gray-100">
+    <aside className={`${className} w-full shrink-0 flex-col border-gray-100 lg:max-w-sm lg:border-r`}>
       <div className="px-4 pt-5 pb-3">
         <h1 className="text-lg font-bold text-gray-900">My Messages</h1>
 
