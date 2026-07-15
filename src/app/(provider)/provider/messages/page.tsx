@@ -1,5 +1,5 @@
-import ProviderComingSoonPage from '@/features/provider/presentation/components/ProviderComingSoonPage';
+import ProviderMessagesPage from '@/features/provider/messages/presentation/pages/ProviderMessagesPage';
 
 export default function Page() {
-  return <ProviderComingSoonPage title="Messages" />;
+  return <ProviderMessagesPage />;
 }
