@@ -1,0 +1,23 @@
+services:
+  movvapp-app:
+    container_name: movvapp-web
+    image: ghcr.io/sity-technologies/movapp-web:latest
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:3000:3000"
+    
+    environment:
+      BACKEND_URL: ${BACKEND_URL:}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:}
+      AUTH_CLIENT_ID: ${AUTH_CLIENT_ID:}
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET:}
+      NEXT_PUBLIC_AUTH_CLIENT_ID: ${NEXT_PUBLIC_AUTH_CLIENT_ID:}
+      NEXT_PUBLIC_AUTH_CLIENT_SECRET: ${NEXT_PUBLIC_AUTH_CLIENT_SECRET:}
+    networks:
+      - movvapp
+
+networks:
+  kifwa:
+    name: movvapp
+    driver: bridge

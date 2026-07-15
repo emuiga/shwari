@@ -1,0 +1,6 @@
+services:
+  movvapp-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${IMAGE}

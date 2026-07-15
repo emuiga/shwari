@@ -1,3 +1,3 @@
-import CompareServicesPage from '@/features/dashboard/presentation/pages/CompareServicesPage';
+import CompareServicesPage from '@/features/client/saved/presentation/pages/CompareServicesPage';
 
 export default CompareServicesPage;

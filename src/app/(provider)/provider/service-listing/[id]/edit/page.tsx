@@ -1,4 +1,4 @@
-import EditServiceListingPage from '@/features/provider/presentation/pages/EditServiceListingPage';
+import EditServiceListingPage from '@/features/provider/service-listing/presentation/pages/EditServiceListingPage';
 
 interface PageProps {
   params: Promise<{ id: string }>;
