@@ -1,4 +1,4 @@
-import ServiceDetailPage from '@/features/dashboard/presentation/pages/ServiceDetailPage';
+import ServiceDetailPage from '@/features/client/service-detail/presentation/pages/ServiceDetailPage';
 
 interface PageProps {
   params: Promise<{ id: string }>;

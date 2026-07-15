@@ -1,3 +1,3 @@
-import SavedProvidersPage from '@/features/dashboard/presentation/pages/SavedProvidersPage';
+import SavedProvidersPage from '@/features/client/saved/presentation/pages/SavedProvidersPage';
 
 export default SavedProvidersPage;

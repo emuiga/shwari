@@ -2,7 +2,7 @@
 
 import TagAutocomplete from '@/components/forms/TagAutocomplete';
 import { DAYS_OF_WEEK, TIME_OPTIONS, type BusinessDetails } from '@/features/auth/presentation/lib/businessProfile';
-import { searchLocations } from '@/features/dashboard/presentation/lib/locations';
+import { searchLocations } from '@/lib/locations';
 
 interface BusinessDetailsStepProps {
   details: BusinessDetails;

@@ -1,3 +1,3 @@
-import DashboardPage from '@/features/dashboard/presentation/pages/DashboardPage';
+import DashboardPage from '@/features/client/browse/presentation/pages/DashboardPage';
 
 export default DashboardPage;

@@ -1,9 +1,9 @@
-import { CompareProvider } from '@/features/dashboard/presentation/context/CompareContext';
-import DashboardShell from '@/features/dashboard/presentation/components/DashboardShell';
-import { MessagesProvider } from '@/features/dashboard/presentation/context/MessagesContext';
-import { SavedServicesProvider } from '@/features/dashboard/presentation/context/SavedServicesContext';
-import { ServiceRequestsProvider } from '@/features/dashboard/presentation/context/ServiceRequestsContext';
-import { SidebarProvider } from '@/features/dashboard/presentation/context/SidebarContext';
+import { CompareProvider } from '@/features/client/saved/presentation/context/CompareContext';
+import DashboardShell from '@/features/client/shared/presentation/components/DashboardShell';
+import { MessagesProvider } from '@/features/client/messages/presentation/context/MessagesContext';
+import { SavedServicesProvider } from '@/features/client/saved/presentation/context/SavedServicesContext';
+import { ServiceRequestsProvider } from '@/features/client/requests/presentation/context/ServiceRequestsContext';
+import { SidebarProvider } from '@/lib/context/SidebarContext';
 
 export default function DashboardGroupLayout({
   children,
