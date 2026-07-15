@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ChevronDownIcon } from '@/features/dashboard/presentation/components/icons';
-import { getRandomAvatar } from '@/features/dashboard/presentation/lib/avatars';
+import { ChevronDownIcon } from '@/components/icons';
+import { getRandomAvatar } from '@/lib/avatars';
 
 const MENU_ITEMS = [
   { label: 'Business profile', href: '/provider/business-profile' },
@@ -13,7 +13,7 @@ const MENU_ITEMS = [
 
 export default function ProviderProfileMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const avatarSrc = getRandomAvatar();
+  const [avatarSrc] = useState(getRandomAvatar);
 
   return (
     <div className="relative">

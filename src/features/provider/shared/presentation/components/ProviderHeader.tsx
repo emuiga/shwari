@@ -1,7 +1,7 @@
 'use client';
 
-import MaskIcon from '@/features/dashboard/presentation/components/MaskIcon';
-import ProviderProfileMenu from '@/features/provider/presentation/components/ProviderProfileMenu';
+import MaskIcon from '@/components/MaskIcon';
+import ProviderProfileMenu from '@/features/provider/shared/presentation/components/ProviderProfileMenu';
 
 export default function ProviderHeader() {
   return (

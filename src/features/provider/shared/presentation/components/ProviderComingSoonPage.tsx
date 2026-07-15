@@ -1,4 +1,5 @@
-import ProviderHeader from '@/features/provider/presentation/components/ProviderHeader';
+import ProviderHeader from '@/features/provider/shared/presentation/components/ProviderHeader';
+import EmptyState from '@/features/provider/shared/presentation/components/EmptyState';
 
 interface ProviderComingSoonPageProps {
   title: string;
@@ -6,13 +7,11 @@ interface ProviderComingSoonPageProps {
 
 export default function ProviderComingSoonPage({ title }: ProviderComingSoonPageProps) {
   return (
-    <div className="min-h-screen w-full bg-white">
+    <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
       <main className="px-4 py-6 sm:px-6">
-        <h1 className="text-xl font-bold text-gray-900">{title}</h1>
-        <div className="mt-10 rounded-2xl border border-gray-200 py-16 text-center">
-          <p className="text-sm text-gray-500">This section is coming soon.</p>
-        </div>
+        <h1 className="page-title">{title}</h1>
+        <EmptyState className="mt-10" title="This section is coming soon." />
       </main>
     </div>
   );

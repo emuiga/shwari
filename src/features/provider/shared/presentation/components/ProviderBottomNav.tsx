@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { PROVIDER_NAV_ITEMS } from '@/features/provider/presentation/lib/providerNav';
+import { PROVIDER_NAV_ITEMS } from '@/features/provider/shared/presentation/lib/providerNav';
 
 export default function ProviderBottomNav() {
   const pathname = usePathname() ?? '';

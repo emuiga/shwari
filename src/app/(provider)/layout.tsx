@@ -1,13 +1,16 @@
-import { SidebarProvider } from '@/features/dashboard/presentation/context/SidebarContext';
-import ProviderShell from '@/features/provider/presentation/components/ProviderShell';
-import { ServiceListingsProvider } from '@/features/provider/presentation/context/ServiceListingsContext';
+import { SidebarProvider } from '@/lib/context/SidebarContext';
+import ProviderShell from '@/features/provider/shared/presentation/components/ProviderShell';
+import { ServiceListingsProvider } from '@/features/provider/service-listing/presentation/context/ServiceListingsContext';
+import { SubscriptionProvider } from '@/features/provider/subscriptions/presentation/context/SubscriptionContext';
 
 export default function ProviderGroupLayout({ children }: { children: React.ReactNode }) {
   return (
     <ServiceListingsProvider>
-      <SidebarProvider>
-        <ProviderShell>{children}</ProviderShell>
-      </SidebarProvider>
+      <SubscriptionProvider>
+        <SidebarProvider>
+          <ProviderShell>{children}</ProviderShell>
+        </SidebarProvider>
+      </SubscriptionProvider>
     </ServiceListingsProvider>
   );
 }

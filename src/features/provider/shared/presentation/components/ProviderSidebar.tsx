@@ -4,9 +4,9 @@ import type { ComponentType } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronLeftIcon, ChevronRightIcon } from '@/features/dashboard/presentation/components/icons';
-import { useSidebar } from '@/features/dashboard/presentation/context/SidebarContext';
-import { PROVIDER_NAV_ITEMS, PROVIDER_PROFILE_NAV_ITEMS } from '@/features/provider/presentation/lib/providerNav';
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons';
+import { useSidebar } from '@/lib/context/SidebarContext';
+import { PROVIDER_NAV_ITEMS, PROVIDER_PROFILE_NAV_ITEMS } from '@/features/provider/shared/presentation/lib/providerNav';
 
 export default function ProviderSidebar() {
   const { isOpen, toggle } = useSidebar();
@@ -59,15 +59,18 @@ function SidebarLink({ item, isOpen, pathname }: SidebarLinkProps) {
   const Icon = item.icon;
 
   return (
-    <Link
-      href={item.href}
-      title={isOpen ? undefined : item.label}
-      className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-        isActive ? 'bg-green-50 text-green-600' : 'text-gray-600 hover:bg-gray-50'
-      } ${!isOpen && 'justify-center'}`}
-    >
-      <Icon className="h-[18px] w-[18px] shrink-0" />
-      {isOpen && <span className="truncate">{item.label}</span>}
-    </Link>
+    <div className="relative">
+      {isActive && <span className="absolute right-0 top-0 bottom-0 w-0.5 rounded-full bg-green-600" />}
+      <Link
+        href={item.href}
+        title={isOpen ? undefined : item.label}
+        className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+          isActive ? 'bg-green-50 text-green-600' : 'text-gray-600 hover:bg-gray-50'
+        } ${!isOpen && 'justify-center'}`}
+      >
+        <Icon className="h-[18px] w-[18px] shrink-0" />
+        {isOpen && <span className="truncate">{item.label}</span>}
+      </Link>
+    </div>
   );
 }
