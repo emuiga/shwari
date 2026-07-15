@@ -4,7 +4,7 @@ import { createContext, useContext, useState, type ReactNode } from 'react';
 import {
   initialServiceListings,
   type ServiceListing,
-} from '@/features/provider/presentation/lib/mockServiceListings';
+} from '@/features/provider/service-listing/presentation/lib/mockServiceListings';
 
 interface ServiceListingsContextValue {
   listings: ServiceListing[];

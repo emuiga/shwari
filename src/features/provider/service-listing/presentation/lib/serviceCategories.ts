@@ -57,3 +57,10 @@ export function searchSubcategories(query: string): string[] {
   if (!trimmed) return allSubcategories;
   return allSubcategories.filter((subcategory) => subcategory.toLowerCase().includes(trimmed));
 }
+
+export function searchSubcategoriesForCategory(categoryId: string, query: string): string[] {
+  const subcategories = getCategoryById(categoryId)?.subcategories ?? [];
+  const trimmed = query.trim().toLowerCase();
+  if (!trimmed) return subcategories;
+  return subcategories.filter((subcategory) => subcategory.toLowerCase().includes(trimmed));
+}

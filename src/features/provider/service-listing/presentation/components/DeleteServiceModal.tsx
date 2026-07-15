@@ -1,8 +1,8 @@
 'use client';
 
-import { XIcon } from '@/features/dashboard/presentation/components/icons';
-import { getCategoryById } from '@/features/provider/presentation/lib/serviceCategories';
-import type { ServiceListing } from '@/features/provider/presentation/lib/mockServiceListings';
+import { XIcon } from '@/components/icons';
+import { getCategoryById } from '@/features/provider/service-listing/presentation/lib/serviceCategories';
+import type { ServiceListing } from '@/features/provider/service-listing/presentation/lib/mockServiceListings';
 
 interface DeleteServiceModalProps {
   listing: ServiceListing;
@@ -26,7 +26,7 @@ export default function DeleteServiceModal({ listing, onCancel, onConfirm }: Del
         </button>
 
         <h2 className="text-lg font-bold text-red-600">Are you sure you want to delete this service?</h2>
-        <p className="mt-1.5 text-sm text-red-500">Upon deletion this service will not be available to customers for viewing.</p>
+        <p className="mt-1.5 text-sm text-gray-900">Upon deletion this service will not be available to customers for viewing.</p>
 
         <p className="mt-4 text-sm font-semibold text-gray-900">{category?.label}</p>
 
@@ -52,7 +52,7 @@ export default function DeleteServiceModal({ listing, onCancel, onConfirm }: Del
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 rounded-md border border-green-500 py-2.5 text-sm font-semibold text-green-600 hover:bg-green-50"
+            className="flex-1 rounded-md border border-gray-200 py-2.5 text-sm font-semibold text-gray-700 hover:border-green-500 hover:bg-green-50 hover:text-green-600"
           >
             Cancel
           </button>

@@ -1,7 +1,7 @@
 'use client';
 
 import { MAX_COMPANY_DESCRIPTION_LENGTH, type ServicesOffered } from '@/features/auth/presentation/lib/businessProfile';
-import { SERVICE_CATEGORIES } from '@/features/provider/presentation/lib/serviceCategories';
+import { SERVICE_CATEGORIES } from '@/features/provider/service-listing/presentation/lib/serviceCategories';
 
 interface ServicesOfferedStepProps {
   services: ServicesOffered;

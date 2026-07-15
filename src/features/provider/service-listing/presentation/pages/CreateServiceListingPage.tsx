@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import ProviderHeader from '@/features/provider/presentation/components/ProviderHeader';
-import ServiceAddedModal from '@/features/provider/presentation/components/ServiceAddedModal';
+import ProviderHeader from '@/features/provider/shared/presentation/components/ProviderHeader';
+import ServiceAddedModal from '@/features/provider/service-listing/presentation/components/ServiceAddedModal';
 import ServiceListingForm, {
   fromFormValue,
   type ServiceListingFormValue,
-} from '@/features/provider/presentation/components/ServiceListingForm';
-import { useServiceListings } from '@/features/provider/presentation/context/ServiceListingsContext';
+} from '@/features/provider/service-listing/presentation/components/ServiceListingForm';
+import { useServiceListings } from '@/features/provider/service-listing/presentation/context/ServiceListingsContext';
 
 const EMPTY_FORM: ServiceListingFormValue = {
   categoryId: '',
@@ -31,7 +31,7 @@ export default function CreateServiceListingPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-white">
+    <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
       <main className="px-4 py-6 sm:px-6">
         <nav className="mb-6 text-xs text-gray-400">
@@ -39,10 +39,10 @@ export default function CreateServiceListingPage() {
             Home
           </Link>
           <span className="mx-1.5">/</span>
-          <span className="text-gray-600">New Role</span>
+          <span className="text-gray-600">New Service</span>
         </nav>
 
-        <h1 className="mb-4 text-lg font-bold text-gray-900">Create New Service Listing</h1>
+        <h1 className="page-title mb-4">Create New Service Listing</h1>
 
         <div className="mx-auto max-w-3xl">
           <ServiceListingForm value={value} onChange={setValue} onSubmit={handleSubmit} submitLabel="Submit service listing" />

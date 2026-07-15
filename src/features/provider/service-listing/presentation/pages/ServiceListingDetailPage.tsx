@@ -3,13 +3,16 @@
 import Link from 'next/link';
 import { notFound, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import ProviderHeader from '@/features/provider/presentation/components/ProviderHeader';
-import DeleteServiceModal from '@/features/provider/presentation/components/DeleteServiceModal';
-import { PencilIcon, TrashIcon } from '@/features/provider/presentation/components/icons';
-import ServiceImageGallery from '@/features/dashboard/presentation/components/ServiceImageGallery';
-import { useServiceListings } from '@/features/provider/presentation/context/ServiceListingsContext';
-import { getCategoryById } from '@/features/provider/presentation/lib/serviceCategories';
-import { formatKes } from '@/features/provider/presentation/lib/mockServiceListings';
+import { toast } from 'sonner';
+import ProviderHeader from '@/features/provider/shared/presentation/components/ProviderHeader';
+import DeleteServiceModal from '@/features/provider/service-listing/presentation/components/DeleteServiceModal';
+import { PencilIcon, TrashIcon } from '@/features/provider/shared/presentation/components/icons';
+import ServiceImageGallery from '@/components/ServiceImageGallery';
+import ServiceReviewsPanel from '@/features/provider/shared/presentation/components/ServiceReviewsPanel';
+import { useServiceListings } from '@/features/provider/service-listing/presentation/context/ServiceListingsContext';
+import { getCategoryById } from '@/features/provider/service-listing/presentation/lib/serviceCategories';
+import { formatKes } from '@/features/provider/service-listing/presentation/lib/mockServiceListings';
+import { mockServiceReviews } from '@/features/provider/shared/presentation/lib/mockReviews';
 
 interface ServiceListingDetailPageProps {
   id: string;
@@ -19,20 +22,31 @@ export default function ServiceListingDetailPage({ id }: ServiceListingDetailPag
   const router = useRouter();
   const { getById, removeListing } = useServiceListings();
   const [showDelete, setShowDelete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const listing = getById(id);
-  if (!listing) {
+  if (!listing && !isDeleting) {
     notFound();
+  }
+  if (!listing) {
+    return null;
   }
 
   const category = getCategoryById(listing.categoryId);
 
   return (
-    <div className="min-h-screen w-full bg-white">
+    <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
       <main className="px-4 py-6 sm:px-6">
         <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
-          <ServiceImageGallery images={listing.images} alt={category?.label ?? 'Service'} />
+          <div>
+            <ServiceImageGallery images={listing.images} alt={category?.label ?? 'Service'} />
+
+            <div className="mt-6 border-b border-gray-100">
+              <h2 className="text-sm font-semibold text-gray-900">Reviews ({mockServiceReviews.length})</h2>
+            </div>
+            <ServiceReviewsPanel reviews={mockServiceReviews} />
+          </div>
 
           <div>
             <div className="flex items-start justify-between gap-3">
@@ -85,7 +99,11 @@ export default function ServiceListingDetailPage({ id }: ServiceListingDetailPag
           listing={listing}
           onCancel={() => setShowDelete(false)}
           onConfirm={() => {
+            setIsDeleting(true);
             removeListing(listing.id);
+            toast.success('Service Deleted Successfully', {
+              description: 'This service is no longer available for customers to view.',
+            });
             router.push('/provider/service-listing');
           }}
         />

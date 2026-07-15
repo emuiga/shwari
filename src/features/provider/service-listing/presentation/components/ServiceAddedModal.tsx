@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircleIcon, XIcon } from '@/features/dashboard/presentation/components/icons';
+import { CheckCircleIcon, XIcon } from '@/components/icons';
 
 interface ServiceAddedModalProps {
   onClose: () => void;

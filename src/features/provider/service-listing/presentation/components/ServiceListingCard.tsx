@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getCategoryById } from '@/features/provider/presentation/lib/serviceCategories';
-import { formatKes, type ServiceListing } from '@/features/provider/presentation/lib/mockServiceListings';
+import { getCategoryById } from '@/features/provider/service-listing/presentation/lib/serviceCategories';
+import { formatKes, type ServiceListing } from '@/features/provider/service-listing/presentation/lib/mockServiceListings';
 
 interface ServiceListingCardProps {
   listing: ServiceListing;
