@@ -1,5 +1,5 @@
-import ProviderComingSoonPage from '@/features/provider/presentation/components/ProviderComingSoonPage';
+import ProviderSubscriptionsPage from '@/features/provider/subscriptions/presentation/pages/ProviderSubscriptionsPage';
 
 export default function Page() {
-  return <ProviderComingSoonPage title="Subscriptions" />;
+  return <ProviderSubscriptionsPage />;
 }
