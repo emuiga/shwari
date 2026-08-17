@@ -10,9 +10,15 @@ export async function fetchBackend<T = unknown>(
   path: string,
   init?: RequestInit,
 ): Promise<BackendResult<T>> {
-  const baseUrl = process.env.BACKEND_API_URL;
+  const baseUrl = process.env.BACKEND_API_URL || process.env.BACKEND_URL;
   if (!baseUrl) {
-    throw new Error('BACKEND_API_URL is not configured');
+    return {
+      status: 500,
+      success: false,
+      code: 'E00500',
+      description: 'Server is misconfigured (missing BACKEND_API_URL). Please contact support.',
+      data: null,
+    };
   }
 
   let response: Response;

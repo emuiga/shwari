@@ -27,6 +27,7 @@ ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
 # Defaults for runtime config — override via docker run -e or env_file at container start.
+ENV BACKEND_API_URL=
 ENV BACKEND_URL=
 ENV APP_URL=
 ENV AUTH_CLIENT_ID=
