@@ -1,21 +1,66 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 import AuthLayout from '@/features/auth/presentation/components/AuthLayout';
 import BackButton from '@/features/auth/presentation/components/BackButton';
 import OtpCodeInput from '@/features/auth/presentation/components/OtpCodeInput';
 import { useResendTimer } from '@/features/auth/presentation/hooks/useResendTimer';
-import { maskEmail, maskPhone } from '@/features/auth/presentation/lib/maskContact';
+import { ApiError, resendLoginMfa, verifyLoginMfa } from '@/features/auth/data/authApi';
+import { consumePendingName } from '@/features/auth/data/pendingProfile';
+import { updateMyProfile } from '@/features/auth/data/usersApi';
 
-const PLACEHOLDER_EMAIL = 'steve@gmail.com';
-const PLACEHOLDER_PHONE = '0700000000';
-
-export default function OtpVerificationPage() {
+function OtpVerificationForm() {
   const router = useRouter();
-  const [code, setCode] = useState(['', '', '', '']);
+  const searchParams = useSearchParams();
+  const challengeId = searchParams.get('challengeId');
+  const maskedEmail = searchParams.get('maskedEmail');
+  const identifier = searchParams.get('identifier');
+
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [error, setError] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
   const { remaining, canResend, reset } = useResendTimer(30);
-  const canVerify = code.every((digit) => digit !== '');
+  const canVerify = challengeId !== null && code.every((digit) => digit !== '');
+
+  async function handleVerify() {
+    if (!challengeId) return;
+    setError(null);
+    setVerifying(true);
+
+    try {
+      await verifyLoginMfa({ challengeId, code: code.join('') });
+
+      const pendingName = identifier ? consumePendingName(identifier) : null;
+      if (pendingName) {
+        await updateMyProfile({ fullName: pendingName }).catch(() => null);
+      }
+
+      router.push('/dashboard');
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
+      setVerifying(false);
+    }
+  }
+
+  async function handleResend() {
+    if (!challengeId) return;
+    reset();
+    await resendLoginMfa({ challengeId }).catch(() => null);
+  }
+
+  if (!challengeId) {
+    return (
+      <AuthLayout>
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-ink">Nothing to verify</h2>
+          <p className="text-sm text-subtle">
+            Please sign in again to receive a new verification code.
+          </p>
+        </div>
+      </AuthLayout>
+    );
+  }
 
   return (
     <AuthLayout>
@@ -23,33 +68,30 @@ export default function OtpVerificationPage() {
 
       <div className="space-y-6">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-ink">
             Verification Code
           </h2>
-          <p className="text-sm text-gray-500">
-            Enter the secure code sent to your email{' '}
-            <span className="font-medium text-gray-700">
-              {maskEmail(PLACEHOLDER_EMAIL)}
-            </span>{' '}
-            and phone number{' '}
-            <span className="font-medium text-gray-700">
-              {maskPhone(PLACEHOLDER_PHONE)}
+          <p className="text-sm text-subtle">
+            Enter the secure code sent to{' '}
+            <span className="font-medium text-body">
+              {maskedEmail ?? 'your registered email'}
             </span>
           </p>
         </div>
 
         <div>
-          <p className="mb-2 text-sm font-medium text-gray-700">
+          <p className="mb-2 text-sm font-medium text-body">
             Enter secure code
           </p>
-          <OtpCodeInput value={code} onChange={setCode} />
-          <p className="mt-2 text-xs text-gray-500">
+          <OtpCodeInput length={6} value={code} onChange={setCode} />
+          {error && <p className="mt-2 text-xs text-danger">{error}</p>}
+          <p className="mt-2 text-xs text-subtle">
             Have not received secure code?{' '}
             <button
               type="button"
               disabled={!canResend}
-              onClick={reset}
-              className="font-semibold text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-gray-900 disabled:cursor-not-allowed disabled:text-gray-400 disabled:no-underline"
+              onClick={handleResend}
+              className="font-semibold text-body underline decoration-gray-300 underline-offset-2 hover:text-ink disabled:cursor-not-allowed disabled:text-faint disabled:no-underline"
             >
               Resend{!canResend && ` (${remaining}s)`}
             </button>
@@ -60,19 +102,28 @@ export default function OtpVerificationPage() {
           <button
             type="button"
             onClick={() => router.back()}
-            className="w-full rounded-md border border-green-500 py-2.5 text-sm font-semibold text-green-600 transition-colors hover:bg-green-50"
+            className="w-full rounded-control border border-primary py-2.5 text-sm font-semibold text-primary-strong transition-colors hover:bg-primary-subtle"
           >
             Previous
           </button>
           <button
             type="button"
-            disabled={!canVerify}
-            className="w-full rounded-md bg-green-500 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={!canVerify || verifying}
+            onClick={handleVerify}
+            className="w-full rounded-control bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-strong disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Verify Secure Code
+            {verifying ? 'Verifying…' : 'Verify Secure Code'}
           </button>
         </div>
       </div>
     </AuthLayout>
+  );
+}
+
+export default function OtpVerificationPage() {
+  return (
+    <Suspense fallback={null}>
+      <OtpVerificationForm />
+    </Suspense>
   );
 }

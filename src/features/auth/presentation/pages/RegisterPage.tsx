@@ -1,7 +1,7 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import AuthLayout from '@/features/auth/presentation/components/AuthLayout';
 import AuthTabs from '@/features/auth/presentation/components/AuthTabs';
 import ProgressBar from '@/features/auth/presentation/components/ProgressBar';
@@ -9,19 +9,21 @@ import AccountTypeStep from '@/features/auth/presentation/components/register/Ac
 import AccountDetailsStep, {
   type AccountDetails,
 } from '@/features/auth/presentation/components/register/AccountDetailsStep';
-import PasswordSetupStep from '@/features/auth/presentation/components/register/PasswordSetupStep';
-import VerificationStep from '@/features/auth/presentation/components/register/VerificationStep';
-import BusinessDetailsStep from '@/features/auth/presentation/components/register/BusinessDetailsStep';
-import ServicesOfferedStep from '@/features/auth/presentation/components/register/ServicesOfferedStep';
-import type { BusinessDetails, ServicesOffered } from '@/features/auth/presentation/lib/businessProfile';
+import { ApiError, register, resendConfirmation } from '@/features/auth/data/authApi';
+import { savePendingName } from '@/features/auth/data/pendingProfile';
+import type { PrimaryRole } from '@/features/auth/data/types';
+import { fieldErrorsFrom, registerDetailsSchema } from '@/features/auth/presentation/lib/validation';
 
 export type AccountType = 'provider' | 'customer';
 
-const TOTAL_STEPS = 4;
-const BUSINESS_PROFILE_STEPS = 2;
+const TOTAL_STEPS = 2;
+
+const PRIMARY_ROLE_BY_ACCOUNT_TYPE: Record<AccountType, PrimaryRole> = {
+  provider: 'SERVICE_PROVIDER',
+  customer: 'CUSTOMER',
+};
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [step, setStep] = useState(1);
   const [accountType, setAccountType] = useState<AccountType | null>(null);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -30,35 +32,80 @@ export default function RegisterPage() {
     email: '',
     phone: '',
   });
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [code, setCode] = useState(['', '', '', '']);
-  const [businessDetails, setBusinessDetails] = useState<BusinessDetails>({
-    businessName: '',
-    phone: '',
-    days: [],
-    openingHours: '',
-    closingHours: '',
-    locations: [],
-  });
-  const [servicesOffered, setServicesOffered] = useState<ServicesOffered>({
-    categoryIds: [],
-    description: '',
-  });
+  const [detailsErrors, setDetailsErrors] = useState<Partial<Record<keyof AccountDetails, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [registered, setRegistered] = useState(false);
+  const [resendState, setResendState] = useState<'idle' | 'sending' | 'sent'>('idle');
 
-  const maxStep = accountType === 'provider' ? TOTAL_STEPS + BUSINESS_PROFILE_STEPS : TOTAL_STEPS;
-  const goToStep = (next: number) => setStep(Math.min(Math.max(next, 1), maxStep));
+  const goToStep = (next: number) => setStep(Math.min(Math.max(next, 1), TOTAL_STEPS));
 
-  function handleVerify() {
-    if (accountType === 'provider') {
-      goToStep(TOTAL_STEPS + 1);
-    } else {
-      router.push('/dashboard');
+  async function handleSubmitDetails() {
+    if (!accountType) return;
+
+    const validation = registerDetailsSchema.safeParse(details);
+    if (!validation.success) {
+      setDetailsErrors(fieldErrorsFrom(validation.error));
+      return;
+    }
+    setDetailsErrors({});
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      await register({
+        email: validation.data.email,
+        phone: validation.data.phone,
+        primaryRole: PRIMARY_ROLE_BY_ACCOUNT_TYPE[accountType],
+      });
+      savePendingName(validation.data.email, validation.data.name);
+      setRegistered(true);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
   }
 
-  function handleBusinessProfileSubmit() {
-    router.push('/provider/dashboard');
+  async function handleResendConfirmation() {
+    setResendState('sending');
+    await resendConfirmation({ email: details.email }).catch(() => null);
+    setResendState('sent');
+  }
+
+  if (registered) {
+    return (
+      <AuthLayout>
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold text-ink">
+              Check your email
+            </h2>
+            <p className="text-sm text-subtle">
+              We&apos;ve sent a confirmation link to{' '}
+              <span className="font-medium text-body">{details.email}</span>.
+              Open it to confirm your account and set your password.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            disabled={resendState !== 'idle'}
+            onClick={handleResendConfirmation}
+            className="w-full rounded-control border border-primary py-2.5 text-sm font-semibold text-primary-strong transition-colors hover:bg-primary-subtle disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {resendState === 'sent' ? 'Confirmation link resent' : 'Resend confirmation email'}
+          </button>
+
+          <Link
+            href="/login"
+            className="block w-full rounded-control bg-primary py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-primary-strong"
+          >
+            Back to Login
+          </Link>
+        </div>
+      </AuthLayout>
+    );
   }
 
   return (
@@ -66,10 +113,7 @@ export default function RegisterPage() {
       <AuthTabs active="register" />
 
       <div className="mt-6 space-y-6">
-        <ProgressBar
-          step={step > TOTAL_STEPS ? step - TOTAL_STEPS : step}
-          totalSteps={step > TOTAL_STEPS ? BUSINESS_PROFILE_STEPS : TOTAL_STEPS}
-        />
+        <ProgressBar step={step} totalSteps={TOTAL_STEPS} />
 
         {step === 1 && (
           <AccountTypeStep
@@ -82,50 +126,19 @@ export default function RegisterPage() {
         )}
 
         {step === 2 && (
-          <AccountDetailsStep
-            details={details}
-            onChange={setDetails}
-            onContinue={() => goToStep(3)}
-          />
-        )}
-
-        {step === 3 && (
-          <PasswordSetupStep
-            password={password}
-            confirmPassword={confirmPassword}
-            onPasswordChange={setPassword}
-            onConfirmPasswordChange={setConfirmPassword}
-            onPrevious={() => goToStep(2)}
-            onContinue={() => goToStep(4)}
-          />
-        )}
-
-        {step === 4 && (
-          <VerificationStep
-            email={details.email}
-            phone={details.phone}
-            code={code}
-            onCodeChange={setCode}
-            onPrevious={() => goToStep(3)}
-            onVerify={handleVerify}
-          />
-        )}
-
-        {step === TOTAL_STEPS + 1 && (
-          <BusinessDetailsStep
-            details={businessDetails}
-            onChange={setBusinessDetails}
-            onContinue={() => goToStep(TOTAL_STEPS + 2)}
-          />
-        )}
-
-        {step === TOTAL_STEPS + 2 && (
-          <ServicesOfferedStep
-            services={servicesOffered}
-            onChange={setServicesOffered}
-            onPrevious={() => goToStep(TOTAL_STEPS + 1)}
-            onSubmit={handleBusinessProfileSubmit}
-          />
+          <div className="space-y-4">
+            <AccountDetailsStep
+              details={details}
+              errors={detailsErrors}
+              onChange={(next) => {
+                setDetails(next);
+                setDetailsErrors({});
+              }}
+              onContinue={handleSubmitDetails}
+            />
+            {error && <p className="text-sm text-danger">{error}</p>}
+            {submitting && <p className="text-sm text-subtle">Creating your account…</p>}
+          </div>
         )}
       </div>
     </AuthLayout>

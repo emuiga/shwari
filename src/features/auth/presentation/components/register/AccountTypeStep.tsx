@@ -40,14 +40,14 @@ export default function AccountTypeStep({
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900">Account Type</h2>
-        <p className="text-sm text-gray-500">
+        <h2 className="text-lg font-semibold text-ink">Account Type</h2>
+        <p className="text-sm text-subtle">
           Let us know who you are for us to customize your experience
         </p>
       </div>
 
       <div>
-        <p className="mb-2 text-sm font-medium text-gray-700">
+        <p className="mb-2 text-sm font-medium text-body">
           How would you like to register with us?
         </p>
         <div className="grid grid-cols-2 gap-3">
@@ -56,16 +56,16 @@ export default function AccountTypeStep({
               key={option.type}
               type="button"
               onClick={() => onSelectAccountType(option.type)}
-              className={`rounded-md border p-3 text-left transition-colors ${
+              className={`rounded-control border p-3 text-left transition-colors ${
                 accountType === option.type
-                  ? 'border-green-500 bg-green-50'
-                  : 'border-gray-200 bg-white'
+                  ? 'border-primary bg-primary-subtle'
+                  : 'border-border bg-white'
               }`}
             >
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-sm font-semibold text-ink">
                 {option.title}
               </p>
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-subtle">
                 {option.description}
               </p>
             </button>
@@ -77,27 +77,27 @@ export default function AccountTypeStep({
         type="button"
         disabled={!canContinue}
         onClick={onContinue}
-        className="w-full rounded-md bg-green-500 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-control bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-strong disabled:cursor-not-allowed disabled:opacity-50"
       >
         Continue
       </button>
 
-      <label className="flex items-start gap-2 text-xs text-gray-500">
+      <label className="flex items-start gap-2 text-xs text-subtle">
         <input
           type="checkbox"
           checked={acceptedTerms}
           onChange={(event) => onToggleTerms(event.target.checked)}
-          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
+          className="mt-0.5 h-4 w-4 rounded border-border-strong text-primary focus:ring-green-500"
         />
         <span>
           Accept terms and conditions
           <br />
           You agree to our{' '}
-          <Link href="/terms" className="font-medium text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-gray-900">
+          <Link href="/terms" className="font-medium text-body underline decoration-gray-300 underline-offset-2 hover:text-ink">
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href="/privacy" className="font-medium text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-gray-900">
+          <Link href="/privacy" className="font-medium text-body underline decoration-gray-300 underline-offset-2 hover:text-ink">
             Privacy Policy
           </Link>
           .

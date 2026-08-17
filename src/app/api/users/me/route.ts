@@ -1,0 +1,39 @@
+import { NextResponse } from 'next/server';
+import { fetchBackend } from '@/lib/auth/backendClient';
+import { getAccessToken } from '@/lib/auth/session';
+
+export async function GET() {
+  const accessToken = await getAccessToken();
+  if (!accessToken) {
+    return NextResponse.json(
+      { success: false, code: 'E00401', description: 'Not authenticated', data: null },
+      { status: 401 },
+    );
+  }
+
+  const result = await fetchBackend('/users/me', {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  return NextResponse.json(result, { status: result.status });
+}
+
+export async function PATCH(request: Request) {
+  const accessToken = await getAccessToken();
+  if (!accessToken) {
+    return NextResponse.json(
+      { success: false, code: 'E00401', description: 'Not authenticated', data: null },
+      { status: 401 },
+    );
+  }
+
+  const body = await request.json();
+  const result = await fetchBackend('/users/me', {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify(body),
+  });
+
+  return NextResponse.json(result, { status: result.status });
+}

@@ -63,7 +63,7 @@ export default function OtpCodeInput({
           onChange={(event) => handleChange(index, event.target.value)}
           onKeyDown={(event) => handleKeyDown(index, event)}
           onPaste={handlePaste}
-          className="h-14 w-14 rounded-md border border-gray-300 bg-white text-center text-lg font-semibold text-gray-900 focus:border-green-500 focus:outline-none"
+          className="h-14 w-14 rounded-control border border-border-strong bg-white text-center text-lg font-semibold text-ink focus:border-primary"
         />
       ))}
     </div>

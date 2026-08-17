@@ -1,20 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import AuthLayout from '@/features/auth/presentation/components/AuthLayout';
-import BackButton from '@/features/auth/presentation/components/BackButton';
 import PasswordField from '@/features/auth/presentation/components/PasswordField';
 import PasswordRequirements from '@/features/auth/presentation/components/PasswordRequirements';
 import { PASSWORD_RULES } from '@/features/auth/presentation/lib/passwordRules';
-import { ApiError, resetPassword } from '@/features/auth/data/authApi';
+import { ApiError, confirmEmail } from '@/features/auth/data/authApi';
 
-function ResetPasswordForm() {
-  const router = useRouter();
+function ConfirmEmailForm() {
   const searchParams = useSearchParams();
-  const resetToken = searchParams.get('token');
-  const challengeId = searchParams.get('challengeId');
+  const token = searchParams.get('token');
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,7 +23,7 @@ function ResetPasswordForm() {
   const allRulesPass = PASSWORD_RULES.every((rule) => rule.test(password));
   const canContinue = allRulesPass && passwordsMatch;
 
-  if (!resetToken || !challengeId) {
+  if (!token) {
     return (
       <AuthLayout>
         <div className="space-y-4">
@@ -35,23 +32,16 @@ function ResetPasswordForm() {
               Link expired or invalid
             </h2>
             <p className="text-sm text-subtle">
-              This password reset link may have expired or is invalid.
-              Please request a new one.
+              This confirmation link may have expired or is invalid. Please
+              register again to receive a new one.
             </p>
           </div>
 
           <Link
-            href="/forgot-password"
+            href="/register"
             className="block w-full rounded-control bg-primary py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-primary-strong"
           >
-            Request New Link
-          </Link>
-
-          <Link
-            href="/login"
-            className="block w-full rounded-control border border-primary py-2.5 text-center text-sm font-semibold text-primary-strong transition-colors hover:bg-primary-subtle"
-          >
-            Back to Sign In
+            Back to Register
           </Link>
         </div>
       </AuthLayout>
@@ -64,11 +54,11 @@ function ResetPasswordForm() {
         <div className="space-y-4">
           <div>
             <h2 className="text-lg font-semibold text-ink">
-              Password reset successful
+              Account confirmed
             </h2>
             <p className="text-sm text-subtle">
-              Your password has been reset. You can now log in with your new
-              password.
+              Your email is confirmed and your password is set. You can now
+              log in.
             </p>
           </div>
 
@@ -85,8 +75,6 @@ function ResetPasswordForm() {
 
   return (
     <AuthLayout>
-      <BackButton onClick={() => router.back()} />
-
       <form
         className="space-y-4"
         onSubmit={async (event) => {
@@ -95,7 +83,7 @@ function ResetPasswordForm() {
           setSubmitting(true);
           setError(null);
           try {
-            await resetPassword({ challengeId, token: resetToken, newPassword: password });
+            await confirmEmail({ token, password });
             setSubmitted(true);
           } catch (err) {
             setError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
@@ -105,23 +93,23 @@ function ResetPasswordForm() {
       >
         <div>
           <h2 className="text-lg font-semibold text-ink">
-            Reset Password
+            Confirm your email
           </h2>
           <p className="text-sm text-subtle">
-            Please make sure your password meets the requirements.
+            Set a password to finish creating your account.
           </p>
         </div>
 
         <PasswordField
-          label="New Password"
-          placeholder="Enter new password"
+          label="Password"
+          placeholder="Enter a password"
           value={password}
           onChange={setPassword}
         />
 
         <PasswordField
           label="Confirm Password"
-          placeholder="Confirm new password"
+          placeholder="Confirm your password"
           value={confirmPassword}
           onChange={setConfirmPassword}
         />
@@ -138,17 +126,17 @@ function ResetPasswordForm() {
           disabled={!canContinue || submitting}
           className="w-full rounded-control bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-strong disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {submitting ? 'Resetting…' : 'Reset Password'}
+          {submitting ? 'Confirming…' : 'Confirm and set password'}
         </button>
       </form>
     </AuthLayout>
   );
 }
 
-export default function ResetPasswordPage() {
+export default function ConfirmEmailPage() {
   return (
     <Suspense fallback={null}>
-      <ResetPasswordForm />
+      <ConfirmEmailForm />
     </Suspense>
   );
 }

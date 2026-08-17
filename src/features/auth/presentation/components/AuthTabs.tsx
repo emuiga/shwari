@@ -6,23 +6,23 @@ interface AuthTabsProps {
 
 export default function AuthTabs({ active }: AuthTabsProps) {
   return (
-    <div className="flex gap-1 rounded-lg border border-gray-200 bg-gray-100 p-1 text-sm">
+    <div className="flex gap-1 rounded-lg border border-border bg-surface-muted p-1 text-sm">
       <Link
         href="/login"
-        className={`flex-1 rounded-md py-2 text-center transition-all ${
+        className={`flex-1 rounded-control py-2 text-center transition-all ${
           active === 'login'
-            ? 'bg-white font-semibold text-gray-900 shadow'
-            : 'font-medium text-gray-400 hover:text-gray-600'
+            ? 'bg-white font-semibold text-ink shadow'
+            : 'font-medium text-faint hover:text-body'
         }`}
       >
         Login
       </Link>
       <Link
         href="/register"
-        className={`flex-1 rounded-md py-2 text-center transition-all ${
+        className={`flex-1 rounded-control py-2 text-center transition-all ${
           active === 'register'
-            ? 'bg-white font-semibold text-gray-900 shadow'
-            : 'font-medium text-gray-400 hover:text-gray-600'
+            ? 'bg-white font-semibold text-ink shadow'
+            : 'font-medium text-faint hover:text-body'
         }`}
       >
         Registration

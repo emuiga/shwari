@@ -11,7 +11,7 @@ export default function PasswordRequirements({
 }: PasswordRequirementsProps) {
   return (
     <div className="space-y-1">
-      <p className="text-sm font-medium text-gray-700">
+      <p className="text-sm font-medium text-body">
         Password Requirements
       </p>
       <ul className="space-y-1">
@@ -19,7 +19,7 @@ export default function PasswordRequirements({
           <li
             key={rule.label}
             className={`flex items-center gap-2 text-xs ${
-              rule.test(password) ? 'text-green-600' : 'text-gray-400'
+              rule.test(password) ? 'text-primary-strong' : 'text-faint'
             }`}
           >
             <span>{rule.test(password) ? '✓' : '○'}</span>
@@ -28,7 +28,7 @@ export default function PasswordRequirements({
         ))}
         <li
           className={`flex items-center gap-2 text-xs ${
-            passwordsMatch ? 'text-green-600' : 'text-gray-400'
+            passwordsMatch ? 'text-primary-strong' : 'text-faint'
           }`}
         >
           <span>{passwordsMatch ? '✓' : '○'}</span>

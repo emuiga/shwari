@@ -22,7 +22,7 @@ export default function PasswordField({
     <div>
       <label
         htmlFor={id}
-        className="mb-1 block text-sm font-medium text-gray-700"
+        className="mb-1 block text-sm font-medium text-body"
       >
         {label}
       </label>
@@ -33,12 +33,12 @@ export default function PasswordField({
           placeholder={placeholder}
           value={value}
           onChange={(event) => onChange?.(event.target.value)}
-          className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-900 placeholder:text-gray-400 focus:border-green-500 focus:outline-none"
+          className="w-full rounded-control border border-border-strong bg-white px-3 py-2 pr-10 text-sm text-ink placeholder:text-faint focus:border-primary"
         />
         <button
           type="button"
           onClick={() => setVisible((prev) => !prev)}
-          className="absolute inset-y-0 right-3 flex items-center text-gray-400"
+          className="absolute inset-y-0 right-3 flex items-center text-faint"
           aria-label={visible ? 'Hide password' : 'Show password'}
         >
           {visible ? (

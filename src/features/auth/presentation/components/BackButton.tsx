@@ -8,7 +8,7 @@ export default function BackButton({ onClick }: BackButtonProps) {
       type="button"
       onClick={onClick}
       aria-label="Go back"
-      className="mb-4 text-gray-500 hover:text-gray-700"
+      className="mb-4 text-subtle hover:text-body"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
