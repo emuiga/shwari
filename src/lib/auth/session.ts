@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { isSecureRequest } from '@/lib/auth/isSecureRequest';
 
 const ACCESS_COOKIE = 'sm_access';
 const REFRESH_COOKIE = 'sm_refresh';
@@ -13,7 +14,7 @@ export async function setSessionCookies({ accessToken, refreshToken }: SessionTo
   const store = await cookies();
   const base = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: await isSecureRequest(),
     sameSite: 'lax' as const,
     path: '/',
   };

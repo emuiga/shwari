@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { isSecureRequest } from '@/lib/auth/isSecureRequest';
 
 const ROLE_COOKIE = 'sm_role_ui';
 
@@ -11,7 +12,7 @@ export async function setActiveRoleCookie(data: ActiveRoleData) {
   const store = await cookies();
   store.set(ROLE_COOKIE, JSON.stringify(data), {
     httpOnly: false,
-    secure: process.env.NODE_ENV === 'production',
+    secure: await isSecureRequest(),
     sameSite: 'lax',
     path: '/',
   });
