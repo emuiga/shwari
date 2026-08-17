@@ -1,14 +1,14 @@
-'use client';
-
 import ProviderHeader from '@/features/provider/shared/presentation/components/ProviderHeader';
 import BackButton from '@/components/ui/BackButton';
 import SubscriptionPlansGrid from '@/features/provider/subscriptions/presentation/components/SubscriptionPlansGrid';
-import { useSubscription } from '@/features/provider/subscriptions/presentation/context/SubscriptionContext';
-import { subscriptionPlans } from '@/features/provider/subscriptions/presentation/lib/mockSubscriptions';
+import type { SubscriptionPlan } from '@/features/provider/subscriptions/data/types';
 
-export default function BrowsePlansPage() {
-  const { activePlan } = useSubscription();
+interface BrowsePlansPageProps {
+  plans: SubscriptionPlan[];
+  activePlanId: string | null;
+}
 
+export default function BrowsePlansPage({ plans, activePlanId }: BrowsePlansPageProps) {
   return (
     <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
@@ -21,7 +21,7 @@ export default function BrowsePlansPage() {
           <BackButton href="/subscriptions" className="shrink-0" />
         </div>
 
-        <SubscriptionPlansGrid plans={subscriptionPlans} activePlanId={activePlan?.id ?? null} />
+        <SubscriptionPlansGrid plans={plans} activePlanId={activePlanId} />
       </main>
     </div>
   );

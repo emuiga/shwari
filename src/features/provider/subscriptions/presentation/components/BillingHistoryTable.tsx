@@ -5,38 +5,41 @@ import { useRouter } from 'next/navigation';
 import { SearchIcon } from '@/components/icons';
 import { EyeIcon } from '@/features/provider/shared/presentation/components/icons';
 import DataTable, { type DataTableColumn } from '@/components/ui/DataTable';
+import { formatDate } from '@/features/provider/subscriptions/presentation/lib/planDisplay';
 import { formatKes } from '@/lib/formatKes';
-import type { BillingRecord } from '@/features/provider/subscriptions/presentation/lib/mockSubscriptions';
+import type { Invoice } from '@/features/provider/subscriptions/data/types';
 
 interface BillingHistoryTableProps {
-  records: BillingRecord[];
+  records: Invoice[];
   hidePlanColumn?: boolean;
 }
 
-const STATUS_STYLES: Record<BillingRecord['paymentStatus'], string> = {
-  Paid: 'bg-primary-subtle text-primary-strong',
-  Overdue: 'bg-danger-soft text-danger',
+const STATUS_STYLES: Record<string, string> = {
+  PAID: 'bg-primary-subtle text-primary-strong',
+  PENDING: 'bg-warning-soft text-warning',
+  OVERDUE: 'bg-danger-soft text-danger',
+  FAILED: 'bg-danger-soft text-danger',
 };
 
-function buildColumns(hidePlanColumn: boolean): DataTableColumn<BillingRecord>[] {
-  const columns: DataTableColumn<BillingRecord>[] = [
-    { key: 'receiptNumber', header: 'Receipt number', render: (record) => <span className="font-medium text-ink">{record.receiptNumber}</span> },
-    { key: 'amount', header: 'Amount', render: (record) => <span className="text-body">{formatKes(record.amount)}</span> },
+function buildColumns(hidePlanColumn: boolean): DataTableColumn<Invoice>[] {
+  const columns: DataTableColumn<Invoice>[] = [
+    { key: 'invoiceNumber', header: 'Invoice number', render: (record) => <span className="font-medium text-ink">{record.invoiceNumber ?? record.id}</span> },
+    { key: 'amount', header: 'Amount', render: (record) => <span className="text-body">{record.amount != null ? formatKes(record.amount) : '—'}</span> },
   ];
   if (!hidePlanColumn) {
-    columns.push({ key: 'subscriptionPlan', header: 'Subscription plan', render: (record) => <span className="text-body">{record.subscriptionPlan}</span> });
+    columns.push({ key: 'planName', header: 'Subscription plan', render: (record) => <span className="text-body">{record.planName ?? '—'}</span> });
   }
   columns.push(
     {
-      key: 'paymentStatus',
+      key: 'status',
       header: 'Payment Status',
       render: (record) => (
-        <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLES[record.paymentStatus]}`}>
-          {record.paymentStatus}
+        <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLES[record.status ?? ''] ?? 'bg-surface-muted text-body'}`}>
+          {record.status ?? 'Unknown'}
         </span>
       ),
     },
-    { key: 'billingDate', header: 'Billing date', render: (record) => <span className="text-body">{record.billingDate}</span> },
+    { key: 'createdAt', header: 'Billing date', render: (record) => <span className="text-body">{formatDate(record.createdAt ?? record.dueDate)}</span> },
   );
   return columns;
 }
@@ -52,7 +55,7 @@ export default function BillingHistoryTable({ records, hidePlanColumn = false }:
   const filtered = useMemo(() => {
     const trimmed = query.trim().toLowerCase();
     if (!trimmed) return records;
-    return records.filter((record) => record.receiptNumber.toLowerCase().includes(trimmed));
+    return records.filter((record) => (record.invoiceNumber ?? record.id).toLowerCase().includes(trimmed));
   }, [records, query]);
 
   return (
@@ -66,12 +69,12 @@ export default function BillingHistoryTable({ records, hidePlanColumn = false }:
             setQuery(event.target.value);
             setPage(1);
           }}
-          placeholder="Search by receipt number"
+          placeholder="Search by invoice number"
           className="w-full rounded-control border border-border bg-surface-muted py-2 pl-9 pr-3 text-sm text-ink placeholder:text-faint"
         />
       </div>
 
-      <DataTable<BillingRecord>
+      <DataTable<Invoice>
         columns={columns}
         data={filtered}
         page={page}
@@ -83,7 +86,7 @@ export default function BillingHistoryTable({ records, hidePlanColumn = false }:
         renderActions={(record) => (
           <button
             type="button"
-            aria-label="View receipt"
+            aria-label="View invoice"
             onClick={() => router.push(`/subscriptions/${record.id}`)}
             className="rounded-control p-1.5 text-subtle hover:bg-primary-subtle hover:text-primary-strong"
           >

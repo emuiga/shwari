@@ -1,17 +1,13 @@
-'use client';
-
 import Link from 'next/link';
 import ProviderHeader from '@/features/provider/shared/presentation/components/ProviderHeader';
 import SubscriptionPlanCard from '@/features/provider/subscriptions/presentation/components/SubscriptionPlanCard';
-import { useSubscription } from '@/features/provider/subscriptions/presentation/context/SubscriptionContext';
-import { currentPlan } from '@/features/provider/subscriptions/presentation/lib/mockSubscriptions';
+import type { ProviderSubscription } from '@/features/provider/subscriptions/data/types';
 
-export default function ProviderSubscriptionsPage() {
-  const { activePlan } = useSubscription();
-  const displayedPlan = activePlan
-    ? { name: activePlan.name, priceLabel: `${activePlan.priceLabel} · ${activePlan.billingCycle}`, features: activePlan.features }
-    : currentPlan;
+interface ProviderSubscriptionsPageProps {
+  subscription: ProviderSubscription | null;
+}
 
+export default function ProviderSubscriptionsPage({ subscription }: ProviderSubscriptionsPageProps) {
   return (
     <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
@@ -30,7 +26,7 @@ export default function ProviderSubscriptionsPage() {
         </div>
 
         <div className="mt-5">
-          <SubscriptionPlanCard plan={displayedPlan} manageHref="/subscriptions/manage" />
+          <SubscriptionPlanCard subscription={subscription} manageHref="/subscriptions/manage" />
         </div>
       </main>
     </div>

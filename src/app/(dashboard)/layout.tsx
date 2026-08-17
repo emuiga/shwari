@@ -3,7 +3,6 @@ import { MessagesProvider } from '@/features/client/messages/presentation/contex
 import { SavedServicesProvider } from '@/features/client/saved/presentation/context/SavedServicesContext';
 import { ServiceRequestsProvider } from '@/features/client/requests/presentation/context/ServiceRequestsContext';
 import { ServiceListingsProvider } from '@/features/provider/service-listing/presentation/context/ServiceListingsContext';
-import { SubscriptionProvider } from '@/features/provider/subscriptions/presentation/context/SubscriptionContext';
 import { SidebarProvider } from '@/lib/context/SidebarContext';
 import { ActiveRoleProvider } from '@/features/auth/presentation/context/ActiveRoleContext';
 import RoleShell from '@/features/shared/presentation/components/RoleShell';
@@ -41,11 +40,9 @@ export default async function DashboardGroupLayout({
           <ServiceRequestsProvider>
             <MessagesProvider>
               <ServiceListingsProvider initialListings={services}>
-                <SubscriptionProvider>
-                  <SidebarProvider>
-                    <RoleShell>{children}</RoleShell>
-                  </SidebarProvider>
-                </SubscriptionProvider>
+                <SidebarProvider>
+                  <RoleShell>{children}</RoleShell>
+                </SidebarProvider>
               </ServiceListingsProvider>
             </MessagesProvider>
           </ServiceRequestsProvider>

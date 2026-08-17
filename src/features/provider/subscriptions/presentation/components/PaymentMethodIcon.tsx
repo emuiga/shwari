@@ -1,20 +1,14 @@
 import Image from 'next/image';
-
-export type PaymentMethod = 'mpesa' | 'card';
+import type { PaymentGateway } from '@/features/provider/subscriptions/data/subscriptionApi';
 
 interface PaymentMethodIconProps {
-  method: PaymentMethod;
+  method: PaymentGateway;
   className?: string;
 }
 
 export default function PaymentMethodIcon({ method, className = 'h-6 w-auto' }: PaymentMethodIconProps) {
-  if (method === 'mpesa') {
+  if (method === 'MPESA') {
     return <Image src="/images/mpesalogo.webp" alt="M-PESA" width={64} height={24} className={`object-contain ${className}`} />;
   }
-  return (
-    <span className="flex items-center gap-1">
-      <Image src="/icons/visa.svg" alt="Visa" width={34} height={25} className={className} />
-      <Image src="/icons/mastercard.svg" alt="Mastercard" width={34} height={25} className={className} />
-    </span>
-  );
+  return <Image src="/icons/kcbbankicon.png" alt="KCB" width={64} height={24} className={`object-contain ${className}`} />;
 }

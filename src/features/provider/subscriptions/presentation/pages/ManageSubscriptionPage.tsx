@@ -1,17 +1,14 @@
-'use client';
-
-import { useState } from 'react';
-import { toast } from 'sonner';
 import ProviderHeader from '@/features/provider/shared/presentation/components/ProviderHeader';
 import BackButton from '@/components/ui/BackButton';
 import ManageSubscriptionPanel from '@/features/provider/subscriptions/presentation/components/ManageSubscriptionPanel';
-import CancelSubscriptionModal from '@/features/provider/subscriptions/presentation/components/CancelSubscriptionModal';
-import { useSubscription } from '@/features/provider/subscriptions/presentation/context/SubscriptionContext';
+import type { Invoice, ProviderSubscription } from '@/features/provider/subscriptions/data/types';
 
-export default function ManageSubscriptionPage() {
-  const { activePlan, cancelSubscription } = useSubscription();
-  const [showCancel, setShowCancel] = useState(false);
+interface ManageSubscriptionPageProps {
+  subscription: ProviderSubscription | null;
+  invoices: Invoice[];
+}
 
+export default function ManageSubscriptionPage({ subscription, invoices }: ManageSubscriptionPageProps) {
   return (
     <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
@@ -24,26 +21,8 @@ export default function ManageSubscriptionPage() {
           <BackButton href="/subscriptions" className="shrink-0" />
         </div>
 
-        <ManageSubscriptionPanel
-          activePlan={activePlan}
-          onCancel={() => setShowCancel(true)}
-          onUpdatePayment={() => toast.info('Payment method management is coming soon.')}
-        />
+        <ManageSubscriptionPanel subscription={subscription} invoices={invoices} />
       </main>
-
-      {showCancel && activePlan && (
-        <CancelSubscriptionModal
-          planName={activePlan.name}
-          onCancel={() => setShowCancel(false)}
-          onConfirm={() => {
-            cancelSubscription();
-            setShowCancel(false);
-            toast.success('Subscription cancelled', {
-              description: 'You have been moved back to the Free plan.',
-            });
-          }}
-        />
-      )}
     </div>
   );
 }
