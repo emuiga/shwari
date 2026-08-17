@@ -22,7 +22,7 @@ export default function SavedProviderCard({ service, onRemove }: SavedProviderCa
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <div className="relative rounded-2xl border border-gray-200 p-4">
+    <div className="relative rounded-card border border-border p-4">
       {isContactOpen && (
         <ContactProviderModal provider={provider} onClose={() => setIsContactOpen(false)} />
       )}
@@ -30,7 +30,7 @@ export default function SavedProviderCard({ service, onRemove }: SavedProviderCa
         type="button"
         aria-label={`Remove ${provider.name} from saved providers`}
         onClick={() => onRemove(service.id)}
-        className="absolute right-4 top-4 text-gray-300 hover:text-gray-500"
+        className="absolute right-4 top-4 text-gray-300 hover:text-subtle"
       >
         <XIcon className="h-4 w-4" />
       </button>
@@ -40,10 +40,10 @@ export default function SavedProviderCard({ service, onRemove }: SavedProviderCa
           <Image src={provider.avatar} alt={provider.name} fill sizes="40px" className="object-cover" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-gray-900">{provider.name}</p>
-          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-gray-400">
+          <p className="text-sm font-semibold text-ink">{provider.name}</p>
+          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-faint">
             {provider.verified && (
-              <span className="flex items-center gap-1 text-green-600">
+              <span className="flex items-center gap-1 text-primary-strong">
                 <CheckCircleIcon className="h-3 w-3" />
                 Verified
               </span>
@@ -57,13 +57,13 @@ export default function SavedProviderCard({ service, onRemove }: SavedProviderCa
         {visibleLocations.map((location) => (
           <span
             key={location}
-            className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600"
+            className="rounded-full bg-surface-muted px-2.5 py-1 text-xs font-medium text-body"
           >
             {locationLabel(location)}
           </span>
         ))}
         {remainingCount > 0 && (
-          <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">
+          <span className="rounded-full bg-surface-muted px-2.5 py-1 text-xs font-medium text-body">
             +{remainingCount}
           </span>
         )}
@@ -72,7 +72,7 @@ export default function SavedProviderCard({ service, onRemove }: SavedProviderCa
       <div className="mt-4 flex gap-2">
         <Link
           href="/messages"
-          className="flex flex-1 items-center justify-center gap-2 rounded-md bg-green-500 py-2 text-sm font-semibold text-white hover:bg-green-600"
+          className="flex flex-1 items-center justify-center gap-2 rounded-control bg-primary py-2 text-sm font-semibold text-white hover:bg-primary-strong"
         >
           <PaperPlaneIcon className="h-4 w-4" />
           Message Provider
@@ -80,7 +80,7 @@ export default function SavedProviderCard({ service, onRemove }: SavedProviderCa
         <button
           type="button"
           onClick={() => setIsContactOpen(true)}
-          className="flex flex-1 items-center justify-center gap-2 rounded-md border border-green-500 py-2 text-sm font-semibold text-green-600 hover:bg-green-50"
+          className="flex flex-1 items-center justify-center gap-2 rounded-control border border-primary py-2 text-sm font-semibold text-primary-strong hover:bg-primary-subtle"
         >
           <PhoneIcon className="h-4 w-4" />
           Show Contact

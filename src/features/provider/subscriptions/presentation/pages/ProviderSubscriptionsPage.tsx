@@ -22,15 +22,15 @@ export default function ProviderSubscriptionsPage() {
             <p className="page-subtitle">Manage your subscriptions</p>
           </div>
           <Link
-            href="/provider/subscriptions/plans"
-            className="shrink-0 rounded-md bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600"
+            href="/subscriptions/plans"
+            className="shrink-0 rounded-control bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-strong"
           >
             View Plans
           </Link>
         </div>
 
         <div className="mt-5">
-          <SubscriptionPlanCard plan={displayedPlan} manageHref="/provider/subscriptions/manage" />
+          <SubscriptionPlanCard plan={displayedPlan} manageHref="/subscriptions/manage" />
         </div>
       </main>
     </div>

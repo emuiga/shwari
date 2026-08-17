@@ -62,7 +62,7 @@ export default function ProviderLeadsPage() {
                 type="button"
                 onClick={() => setTab(item.key)}
                 className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold ${
-                  isActive ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  isActive ? 'bg-primary text-white' : 'bg-surface-muted text-body hover:bg-gray-200'
                 }`}
               >
                 {item.label} {count}
@@ -71,9 +71,9 @@ export default function ProviderLeadsPage() {
           })}
         </div>
 
-        <div className="mt-4 flex items-start gap-2 rounded-md border border-green-200 bg-green-50 px-3 py-2.5">
-          <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
-          <p className="text-xs text-green-700">
+        <div className="mt-4 flex items-start gap-2 rounded-control border border-green-200 bg-primary-subtle px-3 py-2.5">
+          <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+          <p className="text-xs text-primary-emphasis">
             Service requests that are declined or not accepted within 6hrs are automatically reassigned to another Service Provider.
           </p>
         </div>

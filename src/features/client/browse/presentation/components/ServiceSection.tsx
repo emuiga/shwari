@@ -23,14 +23,14 @@ export default function ServiceSection({ section }: ServiceSectionProps) {
   }
 
   return (
-    <section className="border-b border-gray-100 py-6">
+    <section className="border-b border-border-soft py-6">
       <div className="mb-4 flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2">
-          <h2 className="truncate text-base font-semibold text-gray-900">{section.title}</h2>
+          <h2 className="truncate text-base font-semibold text-ink">{section.title}</h2>
           <button
             type="button"
             aria-label={`Add to ${section.title}`}
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-400 hover:bg-gray-50"
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-faint hover:bg-surface-muted"
           >
             <PlusIcon className="h-3.5 w-3.5" />
           </button>
@@ -41,7 +41,7 @@ export default function ServiceSection({ section }: ServiceSectionProps) {
             type="button"
             aria-label="Previous"
             onClick={() => scrollBy(-SCROLL_STEP)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-400 hover:bg-gray-50"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-faint hover:bg-surface-muted"
           >
             <ChevronLeftIcon className="h-4 w-4" />
           </button>
@@ -49,7 +49,7 @@ export default function ServiceSection({ section }: ServiceSectionProps) {
             type="button"
             aria-label="Next"
             onClick={() => scrollBy(SCROLL_STEP)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-400 hover:bg-gray-50"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-faint hover:bg-surface-muted"
           >
             <ChevronRightIcon className="h-4 w-4" />
           </button>

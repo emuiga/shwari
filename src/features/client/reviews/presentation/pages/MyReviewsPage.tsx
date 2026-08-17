@@ -23,11 +23,11 @@ export default function MyReviewsPage() {
       <DashboardHeader />
 
       <main className="px-6 py-6">
-        <h1 className="text-xl font-bold text-gray-900">My Reviews</h1>
+        <h1 className="text-xl font-bold text-ink">My Reviews</h1>
 
         {reviews.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-gray-200 py-16 text-center">
-            <p className="text-sm text-gray-500">You haven&apos;t left any reviews yet.</p>
+          <div className="mt-10 rounded-card border border-border py-16 text-center">
+            <p className="text-sm text-subtle">You haven&apos;t left any reviews yet.</p>
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">

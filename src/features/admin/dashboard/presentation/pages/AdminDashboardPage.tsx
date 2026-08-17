@@ -8,8 +8,8 @@ export default function AdminDashboardPage() {
         <h1 className="page-title">Admin Dashboard</h1>
         <p className="page-subtitle">Overview of Movvapp activity</p>
 
-        <div className="mt-10 rounded-2xl border border-gray-200 py-16 text-center">
-          <p className="text-sm text-gray-500">Admin tools are coming soon.</p>
+        <div className="mt-10 rounded-card border border-border py-16 text-center">
+          <p className="text-sm text-subtle">Admin tools are coming soon.</p>
         </div>
       </main>
     </div>

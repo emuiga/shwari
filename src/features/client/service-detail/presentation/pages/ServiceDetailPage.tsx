@@ -37,12 +37,12 @@ export default function ServiceDetailPage({ serviceId }: ServiceDetailPageProps)
       <DashboardHeader />
 
       <main className="px-6 py-6">
-        <nav className="mb-6 text-xs text-gray-400">
-          <Link href="/dashboard" className="hover:text-gray-600">
+        <nav className="mb-6 text-xs text-faint">
+          <Link href="/dashboard" className="hover:text-body">
             Explore Services
           </Link>
           <span className="mx-1.5">/</span>
-          <span className="text-gray-600">{service.title}</span>
+          <span className="text-body">{service.title}</span>
         </nav>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
@@ -54,14 +54,14 @@ export default function ServiceDetailPage({ serviceId }: ServiceDetailPageProps)
           <div className="space-y-6">
             <div>
               <div className="flex items-start justify-between">
-                <p className="text-2xl font-bold text-gray-900">{formatKes(service.price)}</p>
-                <div className="flex items-center gap-3 text-gray-400">
+                <p className="text-2xl font-bold text-ink">{formatKes(service.price)}</p>
+                <div className="flex items-center gap-3 text-faint">
                   <StarRating rating={service.rating} reviewCount={service.reviewCount} />
                   <button
                     type="button"
                     aria-pressed={isSaved(service.id)}
                     onClick={() => toggleSaved(service.id)}
-                    className={isSaved(service.id) ? 'text-green-600' : 'hover:text-gray-600'}
+                    className={isSaved(service.id) ? 'text-primary-strong' : 'hover:text-body'}
                   >
                     <MaskIcon
                       label={isSaved(service.id) ? 'Remove from saved' : 'Save'}
@@ -72,16 +72,16 @@ export default function ServiceDetailPage({ serviceId }: ServiceDetailPageProps)
                   <MoreIcon className="h-4 w-4" />
                 </div>
               </div>
-              <p className="mt-1 text-base font-medium text-gray-700">{service.title}</p>
+              <p className="mt-1 text-base font-medium text-body">{service.title}</p>
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-gray-900">Service Categories</p>
+              <p className="text-sm font-semibold text-ink">Service Categories</p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {service.categories.map((category) => (
                   <span
                     key={category}
-                    className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600"
+                    className="rounded-full bg-surface-muted px-2.5 py-1 text-xs font-medium text-body"
                   >
                     {category}
                   </span>
@@ -90,12 +90,12 @@ export default function ServiceDetailPage({ serviceId }: ServiceDetailPageProps)
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-gray-900">Moving Locations</p>
+              <p className="text-sm font-semibold text-ink">Moving Locations</p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {service.locations.map((location) => (
                   <span
                     key={location}
-                    className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600"
+                    className="rounded-full bg-surface-muted px-2.5 py-1 text-xs font-medium text-body"
                   >
                     {locationLabel(location)}
                   </span>

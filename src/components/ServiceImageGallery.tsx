@@ -20,7 +20,7 @@ export default function ServiceImageGallery({ images, alt }: ServiceImageGallery
   }
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-gray-900">
+    <div className="relative aspect-video w-full overflow-hidden rounded-card bg-gray-900">
       <Image
         src={images[index]}
         alt={alt}
@@ -35,7 +35,7 @@ export default function ServiceImageGallery({ images, alt }: ServiceImageGallery
             type="button"
             aria-label="Previous image"
             onClick={() => goTo(-1)}
-            className="absolute left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-700 hover:bg-white"
+            className="absolute left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-body hover:bg-white"
           >
             <ChevronLeftIcon className="h-4 w-4" />
           </button>
@@ -43,7 +43,7 @@ export default function ServiceImageGallery({ images, alt }: ServiceImageGallery
             type="button"
             aria-label="Next image"
             onClick={() => goTo(1)}
-            className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-700 hover:bg-white"
+            className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-body hover:bg-white"
           >
             <ChevronRightIcon className="h-4 w-4" />
           </button>

@@ -12,18 +12,18 @@ interface DeclineLeadModalProps {
 export default function DeclineLeadModal({ lead, onCancel, onConfirm }: DeclineLeadModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+      <div className="relative w-full max-w-md rounded-card bg-white p-6 shadow-xl">
         <button
           type="button"
           aria-label="Close"
           onClick={onCancel}
-          className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
+          className="absolute right-4 top-4 text-faint hover:text-body"
         >
           <XIcon className="h-4 w-4" />
         </button>
 
-        <h2 className="text-lg font-bold text-red-600">Decline this service request?</h2>
-        <p className="mt-1.5 text-sm text-gray-900">
+        <h2 className="text-lg font-bold text-danger">Decline this service request?</h2>
+        <p className="mt-1.5 text-sm text-ink">
           {lead.customerName}&apos;s request for {lead.service} will be reassigned to another service provider.
         </p>
 
@@ -31,14 +31,14 @@ export default function DeclineLeadModal({ lead, onCancel, onConfirm }: DeclineL
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 rounded-md border border-gray-200 py-2.5 text-sm font-semibold text-gray-700 hover:border-green-500 hover:bg-green-50 hover:text-green-600"
+            className="flex-1 rounded-control border border-border py-2.5 text-sm font-semibold text-body hover:border-primary hover:bg-primary-subtle hover:text-primary-strong"
           >
             Keep Request
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="flex-1 rounded-md bg-red-500 py-2.5 text-sm font-semibold text-white hover:bg-red-600"
+            className="flex-1 rounded-control bg-danger py-2.5 text-sm font-semibold text-white hover:bg-red-600"
           >
             Decline Request
           </button>

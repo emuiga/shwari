@@ -85,10 +85,10 @@ export const serviceRequests: ServiceRequest[] = [
 export const STATUS_STYLES: Record<ServiceRequestStatus, string> = {
   Completed: 'bg-blue-50 text-blue-600',
   Draft: 'bg-orange-50 text-orange-500',
-  Active: 'bg-green-50 text-green-600',
+  Active: 'bg-primary-subtle text-primary-strong',
   Expired: 'bg-pink-50 text-pink-600',
   Reviewed: 'bg-blue-50 text-blue-600',
-  Incomplete: 'bg-green-50 text-green-600',
+  Incomplete: 'bg-primary-subtle text-primary-strong',
 };
 
 export const STATUS_ACTION_LABEL: Record<ServiceRequestStatus, string> = {

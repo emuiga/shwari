@@ -20,8 +20,8 @@ export default function ManageSubscriptionPanel({ activePlan, onCancel, onUpdate
         <div className="flex items-center justify-between gap-3">
           <SectionHeader title="Plan Information" className="flex-1" />
           <Link
-            href="/provider/subscriptions/plans"
-            className="shrink-0 rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+            href="/subscriptions/plans"
+            className="shrink-0 rounded-control border border-border bg-white px-4 py-2 text-xs font-semibold text-body hover:bg-surface-muted"
           >
             Adjust plan
           </Link>
@@ -35,7 +35,7 @@ export default function ManageSubscriptionPanel({ activePlan, onCancel, onUpdate
             value={
               <span
                 className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${
-                  activePlan ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
+                  activePlan ? 'bg-primary-subtle text-primary-emphasis' : 'bg-surface-muted text-body'
                 }`}
               >
                 {activePlan ? 'Active' : 'Free'}
@@ -60,9 +60,9 @@ export default function ManageSubscriptionPanel({ activePlan, onCancel, onUpdate
               </span>
             }
           />
-          <div className="flex items-center justify-between border-b border-gray-100 py-3">
-            <span className="text-sm text-gray-500">Change payment method</span>
-            <button type="button" onClick={onUpdatePayment} className="rounded-md border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50">
+          <div className="flex items-center justify-between border-b border-border-soft py-3">
+            <span className="text-sm text-subtle">Change payment method</span>
+            <button type="button" onClick={onUpdatePayment} className="rounded-control border border-border bg-white px-3 py-1.5 text-xs font-semibold text-body hover:bg-surface-muted">
               Update
             </button>
           </div>
@@ -80,11 +80,11 @@ export default function ManageSubscriptionPanel({ activePlan, onCancel, onUpdate
         <section className="space-y-4">
           <SectionHeader title="Cancellation" />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-gray-500">Cancelling stops your subscription at the end of the current billing cycle.</p>
+            <p className="text-sm text-subtle">Cancelling stops your subscription at the end of the current billing cycle.</p>
             <button
               type="button"
               onClick={onCancel}
-              className="shrink-0 self-start rounded-md bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 sm:self-auto"
+              className="shrink-0 self-start rounded-control bg-danger px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 sm:self-auto"
             >
               Cancel Plan
             </button>

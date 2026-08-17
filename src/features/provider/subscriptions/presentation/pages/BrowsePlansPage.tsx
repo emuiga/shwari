@@ -18,7 +18,7 @@ export default function BrowsePlansPage() {
             <h1 className="page-title truncate">Choose a Plan</h1>
             <p className="page-subtitle">Pick the plan that works best for your business</p>
           </div>
-          <BackButton href="/provider/subscriptions" className="shrink-0" />
+          <BackButton href="/subscriptions" className="shrink-0" />
         </div>
 
         <SubscriptionPlansGrid plans={subscriptionPlans} activePlanId={activePlan?.id ?? null} />

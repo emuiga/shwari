@@ -16,12 +16,12 @@ export default function SavedProvidersPage() {
 
       <main className="px-6 py-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-900">My Saved Providers</h1>
+          <h1 className="text-xl font-bold text-ink">My Saved Providers</h1>
           {savedServices.length > 0 && (
             <button
               type="button"
               onClick={clearSaved}
-              className="text-sm font-medium text-green-600 hover:underline"
+              className="text-sm font-medium text-primary-strong hover:underline"
             >
               Remove all from the list
             </button>
@@ -29,11 +29,11 @@ export default function SavedProvidersPage() {
         </div>
 
         {savedServices.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-gray-200 py-16 text-center">
-            <p className="text-sm text-gray-500">You haven&apos;t saved any providers yet.</p>
+          <div className="mt-10 rounded-card border border-border py-16 text-center">
+            <p className="text-sm text-subtle">You haven&apos;t saved any providers yet.</p>
             <Link
               href="/dashboard"
-              className="mt-3 inline-block text-sm font-semibold text-green-600 hover:underline"
+              className="mt-3 inline-block text-sm font-semibold text-primary-strong hover:underline"
             >
               Browse services
             </Link>

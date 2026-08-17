@@ -27,17 +27,17 @@ export default function MyReviewCard({ review, onSave, onDelete }: MyReviewCardP
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 p-4">
+    <div className="rounded-card border border-border p-4">
       <div className="flex gap-3">
         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
           <Image src={review.serviceImage} alt="" fill sizes="48px" className="object-cover" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
-            <p className="truncate text-sm font-semibold text-gray-900">{review.serviceTitle}</p>
-            <span className="shrink-0 text-xs text-gray-400">{review.date}</span>
+            <p className="truncate text-sm font-semibold text-ink">{review.serviceTitle}</p>
+            <span className="shrink-0 text-xs text-faint">{review.date}</span>
           </div>
-          <p className="text-xs text-gray-500">{review.providerName}</p>
+          <p className="text-xs text-subtle">{review.providerName}</p>
 
           {isEditing ? (
             <div className="mt-1.5 flex items-center gap-1">
@@ -70,10 +70,10 @@ export default function MyReviewCard({ review, onSave, onDelete }: MyReviewCardP
           value={comment}
           onChange={(event) => setComment(event.target.value)}
           rows={3}
-          className="mt-3 w-full rounded-md border border-gray-200 p-2.5 text-sm text-gray-700 focus:border-green-500 focus:outline-none"
+          className="mt-3 w-full rounded-control border border-border p-2.5 text-sm text-body focus:border-primary"
         />
       ) : (
-        <p className="mt-3 text-sm text-gray-600">{review.comment}</p>
+        <p className="mt-3 text-sm text-body">{review.comment}</p>
       )}
 
       <div className="mt-4 flex gap-2">
@@ -82,14 +82,14 @@ export default function MyReviewCard({ review, onSave, onDelete }: MyReviewCardP
             <button
               type="button"
               onClick={handleSave}
-              className="rounded-md bg-green-500 px-4 py-1.5 text-sm font-semibold text-white hover:bg-green-600"
+              className="rounded-control bg-primary px-4 py-1.5 text-sm font-semibold text-white hover:bg-primary-strong"
             >
               Save
             </button>
             <button
               type="button"
               onClick={handleCancel}
-              className="rounded-md border border-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-600 hover:bg-gray-50"
+              className="rounded-control border border-border px-4 py-1.5 text-sm font-semibold text-body hover:bg-surface-muted"
             >
               Cancel
             </button>
@@ -99,14 +99,14 @@ export default function MyReviewCard({ review, onSave, onDelete }: MyReviewCardP
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="rounded-md border border-green-500 px-4 py-1.5 text-sm font-semibold text-green-600 hover:bg-green-50"
+              className="rounded-control border border-primary px-4 py-1.5 text-sm font-semibold text-primary-strong hover:bg-primary-subtle"
             >
               Edit
             </button>
             <button
               type="button"
               onClick={() => onDelete(review.id)}
-              className="rounded-md border border-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-500 hover:bg-gray-50"
+              className="rounded-control border border-border px-4 py-1.5 text-sm font-semibold text-subtle hover:bg-surface-muted"
             >
               Delete
             </button>

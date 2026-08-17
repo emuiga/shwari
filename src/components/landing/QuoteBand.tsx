@@ -16,7 +16,7 @@ export default function QuoteBand() {
               Every listing on Movvapp is a{" "}
               <span className="relative inline-block">
                 vetted, insured
-                <span className="absolute inset-x-0 -bottom-1 h-1 rounded-full bg-green-500" />
+                <span className="absolute inset-x-0 -bottom-1 h-1 rounded-full bg-primary" />
               </span>{" "}
               mover &mdash; no cold calls, no guesswork, no surprises on move
               day.
@@ -25,13 +25,13 @@ export default function QuoteBand() {
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
                 href="/register"
-                className="rounded-full bg-green-500 px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-green-400"
+                className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-green-400"
               >
                 Browse movers
               </Link>
               <Link
                 href="/login"
-                className="rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:border-green-500 hover:text-green-400"
+                className="rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:border-primary hover:text-green-400"
               >
                 Talk to support
               </Link>

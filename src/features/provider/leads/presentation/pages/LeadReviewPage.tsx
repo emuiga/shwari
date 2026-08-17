@@ -8,7 +8,6 @@ import DetailField from '@/components/ui/DetailField';
 import ServiceImageGallery from '@/components/ServiceImageGallery';
 import ServiceReviewsPanel from '@/features/provider/shared/presentation/components/ServiceReviewsPanel';
 import { useServiceListings } from '@/features/provider/service-listing/presentation/context/ServiceListingsContext';
-import { getCategoryById } from '@/features/provider/service-listing/presentation/lib/serviceCategories';
 import { mockLeads } from '@/features/provider/leads/presentation/lib/mockLeads';
 import type { ServiceReview } from '@/features/provider/shared/presentation/lib/mockReviews';
 
@@ -29,8 +28,6 @@ export default function LeadReviewPage({ leadId }: LeadReviewPageProps) {
     notFound();
   }
 
-  const category = getCategoryById(listing.categoryId);
-
   const reviews: ServiceReview[] = lead.review
     ? [
         {
@@ -49,15 +46,15 @@ export default function LeadReviewPage({ leadId }: LeadReviewPageProps) {
       <main className="px-4 py-6 sm:px-6">
         <div className="mb-4 flex items-center justify-between gap-3">
           <h1 className="page-title truncate">Completed Order #{lead.orderId}</h1>
-          <BackButton href="/provider/leads" className="shrink-0" />
+          <BackButton href="/leads" className="shrink-0" />
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
           <div>
-            <ServiceImageGallery images={listing.images} alt={category?.label ?? 'Service'} />
+            <ServiceImageGallery images={listing.images ?? []} alt={listing.categoryName ?? 'Service'} />
 
-            <div className="mt-6 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">Review ({reviews.length})</h2>
+            <div className="mt-6 border-b border-border-soft">
+              <h2 className="text-sm font-semibold text-ink">Review ({reviews.length})</h2>
             </div>
             <ServiceReviewsPanel reviews={reviews} />
           </div>

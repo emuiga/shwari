@@ -14,13 +14,13 @@ export default function AdminSidebar() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-40 hidden h-screen shrink-0 flex-col border-r border-gray-100 bg-white transition-all duration-300 lg:flex ${
+      className={`fixed left-0 top-0 z-40 hidden h-screen shrink-0 flex-col border-r border-border-soft bg-white transition-all duration-300 lg:flex ${
         isOpen ? 'w-60' : 'w-[72px]'
       }`}
     >
       <div className={`flex items-center gap-2 px-4 py-5 ${!isOpen && 'justify-center'}`}>
         <Image src="/images/moving-truck-green.png" alt="" width={28} height={28} />
-        {isOpen && <span className="font-heading text-lg font-bold text-gray-900">Movvapp Admin</span>}
+        {isOpen && <span className="font-heading text-lg font-bold text-ink">Movvapp Admin</span>}
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
@@ -33,7 +33,7 @@ export default function AdminSidebar() {
         type="button"
         onClick={toggle}
         aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-        className="absolute -right-3 top-16 flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50"
+        className="absolute -right-3 top-16 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-white text-subtle shadow-sm hover:bg-surface-muted"
       >
         {isOpen ? <ChevronLeftIcon className="h-3.5 w-3.5" /> : <ChevronRightIcon className="h-3.5 w-3.5" />}
       </button>
@@ -53,12 +53,12 @@ function SidebarLink({ item, isOpen, pathname }: SidebarLinkProps) {
 
   return (
     <div className="relative">
-      {isActive && <span className="absolute right-0 top-0 bottom-0 w-0.5 rounded-full bg-green-600" />}
+      {isActive && <span className="absolute right-0 top-0 bottom-0 w-0.5 rounded-full bg-primary-strong" />}
       <Link
         href={item.href}
         title={isOpen ? undefined : item.label}
         className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-          isActive ? 'bg-green-50 text-green-600' : 'text-gray-600 hover:bg-gray-50'
+          isActive ? 'bg-primary-subtle text-primary-strong' : 'text-body hover:bg-surface-muted'
         } ${!isOpen && 'justify-center'}`}
       >
         <Icon className="h-[18px] w-[18px] shrink-0" />

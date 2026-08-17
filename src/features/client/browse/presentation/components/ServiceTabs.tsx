@@ -20,14 +20,14 @@ export default function ServiceTabs({ reviews, similarServices }: ServiceTabsPro
 
   return (
     <div className="mt-8">
-      <div className="flex gap-6 border-b border-gray-100">
+      <div className="flex gap-6 border-b border-border-soft">
         <button
           type="button"
           onClick={() => setActiveTab('reviews')}
           className={
             activeTab === 'reviews'
-              ? 'border-b-2 border-green-500 pb-3 text-sm font-semibold text-gray-900'
-              : 'border-b-2 border-transparent pb-3 text-sm font-medium text-gray-400 hover:text-gray-600'
+              ? 'border-b-2 border-primary pb-3 text-sm font-semibold text-ink'
+              : 'border-b-2 border-transparent pb-3 text-sm font-medium text-faint hover:text-body'
           }
         >
           Reviews
@@ -37,8 +37,8 @@ export default function ServiceTabs({ reviews, similarServices }: ServiceTabsPro
           onClick={() => setActiveTab('similar')}
           className={
             activeTab === 'similar'
-              ? 'border-b-2 border-green-500 pb-3 text-sm font-semibold text-gray-900'
-              : 'border-b-2 border-transparent pb-3 text-sm font-medium text-gray-400 hover:text-gray-600'
+              ? 'border-b-2 border-primary pb-3 text-sm font-semibold text-ink'
+              : 'border-b-2 border-transparent pb-3 text-sm font-medium text-faint hover:text-body'
           }
         >
           Similar Services

@@ -33,7 +33,7 @@ export default function PlanDetailPage({ planId }: PlanDetailPageProps) {
             <h1 className="page-title truncate">{plan.name}</h1>
             <p className="page-subtitle">Details of this plan</p>
           </div>
-          <BackButton href="/provider/subscriptions/plans" className="shrink-0" />
+          <BackButton href="/subscriptions/plans" className="shrink-0" />
         </div>
 
         <div className="mx-auto max-w-4xl space-y-8">
@@ -42,15 +42,15 @@ export default function PlanDetailPage({ planId }: PlanDetailPageProps) {
               <SectionHeader title="Plan Information" className="flex-1" />
               {isActive ? (
                 <Link
-                  href="/provider/subscriptions/manage"
-                  className="shrink-0 rounded-md bg-green-100 px-4 py-2 text-xs font-semibold text-green-700 hover:bg-green-200"
+                  href="/subscriptions/manage"
+                  className="shrink-0 rounded-control bg-primary-subtle px-4 py-2 text-xs font-semibold text-primary-emphasis hover:bg-green-200"
                 >
                   Manage
                 </Link>
               ) : (
                 <Link
-                  href={`/provider/subscriptions/pay/${plan.id}`}
-                  className="shrink-0 rounded-md bg-green-500 px-4 py-2 text-xs font-semibold text-white hover:bg-green-600"
+                  href={`/subscriptions/pay/${plan.id}`}
+                  className="shrink-0 rounded-control bg-primary px-4 py-2 text-xs font-semibold text-white hover:bg-primary-strong"
                 >
                   <span className="sm:hidden">Subscribe</span>
                   <span className="hidden sm:inline">Subscribe to this Plan</span>
@@ -66,7 +66,7 @@ export default function PlanDetailPage({ planId }: PlanDetailPageProps) {
                 value={
                   <span
                     className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${
-                      isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
+                      isActive ? 'bg-primary-subtle text-primary-emphasis' : 'bg-surface-muted text-body'
                     }`}
                   >
                     {isActive ? 'Current Plan' : 'Available Plan'}
@@ -81,8 +81,8 @@ export default function PlanDetailPage({ planId }: PlanDetailPageProps) {
             <SectionHeader title="What's Included" />
             <ul className="space-y-2">
               {plan.features.map((feature, index) => (
-                <li key={`${feature}-${index}`} className="flex items-center gap-2 text-sm text-gray-700">
-                  <CheckIcon className="h-3.5 w-3.5 shrink-0 text-green-600" />
+                <li key={`${feature}-${index}`} className="flex items-center gap-2 text-sm text-body">
+                  <CheckIcon className="h-3.5 w-3.5 shrink-0 text-primary-strong" />
                   {feature}
                 </li>
               ))}
@@ -97,7 +97,7 @@ export default function PlanDetailPage({ planId }: PlanDetailPageProps) {
                   <PaymentMethodIcon method="mpesa" className="h-6 w-auto" />
                   <PaymentMethodIcon method="card" className="h-6 w-auto" />
                 </div>
-                <span className="text-sm text-gray-500">Selected on the payment step</span>
+                <span className="text-sm text-subtle">Selected on the payment step</span>
               </div>
             </section>
           )}

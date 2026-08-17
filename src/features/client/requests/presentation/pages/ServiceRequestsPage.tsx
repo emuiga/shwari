@@ -30,11 +30,11 @@ export default function ServiceRequestsPage() {
       <DashboardHeader />
       <main className="px-4 py-6 sm:px-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-xl font-bold text-gray-900">Service Requests</h1>
+        <h1 className="text-xl font-bold text-ink">Service Requests</h1>
 
         <Link
           href="/service-requests/new"
-          className="flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600"
+          className="flex items-center justify-center gap-2 whitespace-nowrap rounded-control bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-strong"
         >
           <PlusIcon className="h-4 w-4 shrink-0" />
           New Service Request
@@ -48,7 +48,7 @@ export default function ServiceRequestsPage() {
             type="button"
             onClick={() => setStatusFilter(status)}
             className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              statusFilter === status ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              statusFilter === status ? 'bg-primary text-white' : 'bg-surface-muted text-body hover:bg-gray-200'
             }`}
           >
             {status}
@@ -57,8 +57,8 @@ export default function ServiceRequestsPage() {
       </div>
 
       {filteredRequests.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-gray-200 py-16 text-center">
-          <p className="text-sm text-gray-500">No service requests match this status.</p>
+        <div className="mt-10 rounded-card border border-border py-16 text-center">
+          <p className="text-sm text-subtle">No service requests match this status.</p>
         </div>
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

@@ -113,13 +113,13 @@ export default function DataTable<T extends object>({
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm ${className} ${
+      className={`overflow-hidden rounded-card border border-border-soft bg-white shadow-sm ${className} ${
         fullScreen ? 'fixed inset-0 z-50 rounded-none' : ''
       }`}
     >
-      <div className="flex items-center justify-between border-b border-gray-100 bg-gray-50 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-border-soft bg-surface-muted px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500">Show:</span>
+          <span className="text-xs text-subtle">Show:</span>
           <div className="relative">
             <select
               value={pageSize}
@@ -128,7 +128,7 @@ export default function DataTable<T extends object>({
                 onPageSizeChange(Number(event.target.value));
                 onPageChange(1);
               }}
-              className="cursor-pointer appearance-none rounded-full border border-gray-200 bg-white py-1 pl-3 pr-7 text-xs font-medium text-gray-600 focus:outline-none"
+              className="cursor-pointer appearance-none rounded-full border border-border bg-white py-1 pl-3 pr-7 text-xs font-medium text-body"
             >
               {pageSizeOptions.map((size) => (
                 <option key={size} value={size}>
@@ -136,38 +136,38 @@ export default function DataTable<T extends object>({
                 </option>
               ))}
             </select>
-            <ChevronDownIcon className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-500" />
+            <ChevronDownIcon className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-subtle" />
           </div>
-          <span className="text-xs text-gray-500">entries</span>
+          <span className="text-xs text-subtle">entries</span>
         </div>
 
         <div className="relative" ref={actionsRef}>
           <button
             type="button"
             onClick={() => setActionsOpen((current) => !current)}
-            className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50"
+            className="flex items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-body hover:bg-surface-muted"
           >
             Actions
             <ChevronDownIcon className="h-3 w-3" />
           </button>
           {actionsOpen && (
-            <div className="absolute right-0 top-full z-50 mt-1 w-44 rounded-xl border border-gray-200 bg-white py-1 shadow-lg">
+            <div className="absolute right-0 top-full z-50 mt-1 w-44 rounded-xl border border-border bg-white py-1 shadow-lg">
               <button
                 type="button"
                 onClick={exportCSV}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-gray-700 hover:bg-green-50 hover:text-green-600"
+                className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-body hover:bg-primary-subtle hover:text-primary-strong"
               >
                 <DownloadIcon className="h-3.5 w-3.5" />
                 Export CSV
               </button>
-              <div className="mx-2 my-1 h-px bg-gray-100" />
+              <div className="mx-2 my-1 h-px bg-surface-muted" />
               <button
                 type="button"
                 onClick={() => {
                   setFullScreen((current) => !current);
                   setActionsOpen(false);
                 }}
-                className="flex w-full items-center gap-2 whitespace-nowrap px-3 py-2 text-left text-xs text-gray-700 hover:bg-green-50 hover:text-green-600"
+                className="flex w-full items-center gap-2 whitespace-nowrap px-3 py-2 text-left text-xs text-body hover:bg-primary-subtle hover:text-primary-strong"
               >
                 {fullScreen ? <MinimizeIcon className="h-3.5 w-3.5" /> : <MaximizeIcon className="h-3.5 w-3.5" />}
                 {fullScreen ? 'Exit Full Screen' : 'Full Screen'}
@@ -185,11 +185,11 @@ export default function DataTable<T extends object>({
         ) : (
           <table className="min-w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
+              <tr className="border-b border-border-soft bg-surface-muted">
                 {columns.map((column) => (
                   <th
                     key={column.key}
-                    className={`px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500 ${column.headerClassName ?? ''}`}
+                    className={`px-4 py-3 text-xs font-semibold uppercase tracking-wide text-subtle ${column.headerClassName ?? ''}`}
                   >
                     {column.header}
                   </th>
@@ -202,12 +202,12 @@ export default function DataTable<T extends object>({
                 <tr
                   key={getItemId(item)}
                   onClick={() => onRowClick?.(item)}
-                  className={`border-b border-gray-50 last:border-0 transition-colors hover:bg-green-50/60 ${
+                  className={`border-b border-gray-50 last:border-0 transition-colors hover:bg-primary-subtle/60 ${
                     onRowClick ? 'cursor-pointer' : ''
-                  } ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/60'}`}
+                  } ${index % 2 === 0 ? 'bg-white' : 'bg-surface-muted/60'}`}
                 >
                   {columns.map((column) => (
-                    <td key={column.key} className={`px-4 py-3 text-gray-700 ${column.className ?? ''}`}>
+                    <td key={column.key} className={`px-4 py-3 text-body ${column.className ?? ''}`}>
                       {column.render ? column.render(item, index) : String((item as Record<string, unknown>)[column.key] ?? '')}
                     </td>
                   ))}
@@ -224,8 +224,8 @@ export default function DataTable<T extends object>({
       </div>
 
       {!loading && displayData.length > 0 && (
-        <div className="flex flex-col gap-3 border-t border-gray-100 bg-gray-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-xs text-gray-500">
+        <div className="flex flex-col gap-3 border-t border-border-soft bg-surface-muted px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <span className="text-xs text-subtle">
             Showing {startIndex + 1}–{endIndex} of {displayTotal}
           </span>
           <div className="flex flex-wrap items-center gap-1.5">
@@ -233,13 +233,13 @@ export default function DataTable<T extends object>({
               type="button"
               onClick={() => onPageChange(page - 1)}
               disabled={page === 1}
-              className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-lg border border-border bg-white px-3 py-1.5 text-xs text-body hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-40"
             >
               Previous
             </button>
             {getPaginationPages().map((pageNumber, index) =>
               pageNumber === '...' ? (
-                <span key={`ellipsis-${index}`} className="px-2 text-xs text-gray-400">
+                <span key={`ellipsis-${index}`} className="px-2 text-xs text-faint">
                   …
                 </span>
               ) : (
@@ -248,7 +248,7 @@ export default function DataTable<T extends object>({
                   type="button"
                   onClick={() => onPageChange(pageNumber)}
                   className={`h-8 w-8 rounded-lg border text-xs transition-colors ${
-                    page === pageNumber ? 'border-green-600 bg-green-600 text-white' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
+                    page === pageNumber ? 'border-green-600 bg-primary-strong text-white' : 'border-border bg-white text-body hover:bg-surface-muted'
                   }`}
                 >
                   {pageNumber}
@@ -259,7 +259,7 @@ export default function DataTable<T extends object>({
               type="button"
               onClick={() => onPageChange(page + 1)}
               disabled={page === totalPages}
-              className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-lg border border-border bg-white px-3 py-1.5 text-xs text-body hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-40"
             >
               Next
             </button>

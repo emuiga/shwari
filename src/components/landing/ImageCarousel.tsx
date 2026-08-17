@@ -71,7 +71,7 @@ export default function ImageCarousel() {
             onClick={() => goTo(index)}
             aria-label={`Go to slide ${index + 1}`}
             className={`h-1.5 rounded-full transition-all ${
-              index === active ? "w-8 bg-green-500" : "w-1.5 bg-white/40"
+              index === active ? "w-8 bg-primary" : "w-1.5 bg-white/40"
             }`}
           />
         ))}

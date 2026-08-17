@@ -5,7 +5,7 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ title, className = '' }: SectionHeaderProps) {
   return (
-    <p className={`border-b border-gray-200 pb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 ${className}`}>
+    <p className={`border-b border-border pb-2 text-xs font-semibold uppercase tracking-wide text-subtle ${className}`}>
       {title}
     </p>
   );

@@ -27,7 +27,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+    <div className="flex h-full flex-col overflow-hidden rounded-card border border-border bg-white shadow-sm transition-shadow hover:shadow-md">
       {isContactOpen && (
         <ContactProviderModal provider={service.provider} onClose={() => setIsContactOpen(false)} />
       )}
@@ -43,23 +43,23 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
       <div className="flex flex-1 flex-col p-4">
         <Link href={`/service/${service.id}`}>
-          <p className="text-base font-semibold text-gray-900 hover:underline">
+          <p className="text-base font-semibold text-ink hover:underline">
             {formatKes(service.price)}
           </p>
         </Link>
-        <p className="mt-0.5 text-sm text-gray-500">{service.description}</p>
+        <p className="mt-0.5 text-sm text-subtle">{service.description}</p>
 
         <div className="mt-2 flex flex-wrap gap-1.5">
           {visibleLocations.map((location) => (
             <span
               key={location}
-              className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600"
+              className="rounded-full bg-surface-muted px-2.5 py-1 text-xs font-medium text-body"
             >
               {locationLabel(location)}
             </span>
           ))}
           {remainingCount > 0 && (
-            <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">
+            <span className="rounded-full bg-surface-muted px-2.5 py-1 text-xs font-medium text-body">
               +{remainingCount}
             </span>
           )}
@@ -68,7 +68,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         <button
           type="button"
           onClick={() => setIsContactOpen(true)}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-md border border-green-500 py-2 text-sm font-semibold text-green-600 hover:bg-green-50"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-control border border-primary py-2 text-sm font-semibold text-primary-strong hover:bg-primary-subtle"
         >
           <PaperPlaneIcon className="h-4 w-4" />
           Contact Provider
@@ -79,8 +79,8 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           disabled={disabled}
           className={
             selected
-              ? 'mt-2 flex w-full items-center justify-center rounded-md border border-green-500 bg-green-50 py-2 text-sm font-semibold text-green-600'
-              : 'mt-2 flex w-full items-center justify-center rounded-md border border-green-500 py-2 text-sm font-semibold text-green-600 hover:bg-green-50 disabled:cursor-not-allowed disabled:opacity-50'
+              ? 'mt-2 flex w-full items-center justify-center rounded-control border border-primary bg-primary-subtle py-2 text-sm font-semibold text-primary-strong'
+              : 'mt-2 flex w-full items-center justify-center rounded-control border border-primary py-2 text-sm font-semibold text-primary-strong hover:bg-primary-subtle disabled:cursor-not-allowed disabled:opacity-50'
           }
         >
           {selected ? 'Added to Compare' : 'Compare'}

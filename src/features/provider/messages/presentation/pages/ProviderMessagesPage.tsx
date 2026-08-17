@@ -28,7 +28,7 @@ export default function ProviderMessagesPage() {
   return (
     <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
-      <div className="flex h-[calc(100vh-73px)] flex-col overflow-hidden border-t border-gray-100 md:flex-row">
+      <div className="flex h-[calc(100vh-73px)] flex-col overflow-hidden border-t border-border-soft md:flex-row">
         <ConversationList
           conversations={filteredConversations}
           hasAnyConversations={mockConversations.length > 0}
@@ -49,9 +49,9 @@ export default function ProviderMessagesPage() {
             className={selectedId ? 'flex' : 'hidden md:flex'}
           />
         ) : (
-          <div className={`min-h-0 flex-1 flex-col items-center justify-center gap-2 bg-gray-50 px-4 text-center ${selectedId ? 'flex' : 'hidden md:flex'}`}>
+          <div className={`min-h-0 flex-1 flex-col items-center justify-center gap-2 bg-surface-muted px-4 text-center ${selectedId ? 'flex' : 'hidden md:flex'}`}>
             <ChatIcon className="h-8 w-8 text-gray-300" />
-            <p className="text-sm text-gray-500">Select a message to get started with chatting to service providers</p>
+            <p className="text-sm text-subtle">Select a message to get started with chatting to service providers</p>
           </div>
         )}
       </div>

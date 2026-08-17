@@ -15,14 +15,14 @@ const BOTTOM_NAV_ITEMS = [
   { label: 'Requests', href: '/service-requests', icon: ClipboardIcon },
   { label: 'Saved', href: '/saved-providers', icon: BookmarkIcon },
   { label: 'Messages', href: '/messages', icon: ChatIcon },
-  { label: 'Reviews', href: '/my-reviews', icon: StarIcon },
+  { label: 'Reviews', href: '/reviews', icon: StarIcon },
 ];
 
 export default function DashboardBottomNav() {
   const pathname = usePathname() ?? '';
 
   return (
-    <nav className="fixed bottom-0 left-0 z-40 grid w-full grid-cols-5 border-t border-gray-100 bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
+    <nav className="fixed bottom-0 left-0 z-40 grid w-full grid-cols-5 border-t border-border-soft bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
       {BOTTOM_NAV_ITEMS.map((item) => {
         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
         const Icon = item.icon;
@@ -32,7 +32,7 @@ export default function DashboardBottomNav() {
             key={item.href}
             href={item.href}
             className={`flex min-w-0 flex-col items-center gap-0.5 py-2 text-[10px] font-medium ${
-              isActive ? 'text-green-600' : 'text-gray-500'
+              isActive ? 'text-primary-strong' : 'text-subtle'
             }`}
           >
             <Icon className="h-5 w-5 shrink-0" />

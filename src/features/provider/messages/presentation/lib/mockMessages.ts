@@ -35,7 +35,7 @@ export const mockConversations: Conversation[] = [
       {
         id: 'msg-1',
         sender: 'provider',
-        text: 'Hi Sally, thanks for reaching out to Shwari Movers! We handle residential moves across Nairobi and beyond, from Kamulu to Lower Kabete and everywhere in between.\n\nLet\'s make your move safe, smooth, and stress-free.\nGet your FREE quote today!',
+        text: 'Hi Sally, thanks for reaching out to Kimani Movers! We handle residential moves across Nairobi and beyond, from Kamulu to Lower Kabete and everywhere in between.\n\nLet\'s make your move safe, smooth, and stress-free.\nGet your FREE quote today!',
         timestamp: '16 Jun, 9:02 AM',
       },
       {

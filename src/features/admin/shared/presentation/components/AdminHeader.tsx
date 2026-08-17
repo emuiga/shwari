@@ -5,12 +5,12 @@ import AdminProfileMenu from '@/features/admin/shared/presentation/components/Ad
 
 export default function AdminHeader() {
   return (
-    <header className="flex items-center justify-end border-b border-gray-100 bg-white px-4 py-4 sm:px-6">
+    <header className="flex items-center justify-end border-b border-border-soft bg-white px-4 py-4 sm:px-6">
       <div className="flex items-center gap-2">
         <button
           type="button"
           aria-label="Notifications"
-          className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50"
+          className="relative flex h-9 w-9 items-center justify-center rounded-full border border-border text-subtle hover:bg-surface-muted"
         >
           <MaskIcon
             label="Notifications"

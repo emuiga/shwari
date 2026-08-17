@@ -33,7 +33,7 @@ export default function ChatThreadPanel({
   if (!conversation) {
     return (
       <div className={`${className} flex-1 items-start justify-center pt-24`}>
-        <p className="rounded-md bg-gray-50 px-4 py-3 text-sm text-gray-500">
+        <p className="rounded-control bg-surface-muted px-4 py-3 text-sm text-subtle">
           Select a message to get started with chatting to service providers
         </p>
       </div>
@@ -50,13 +50,13 @@ export default function ChatThreadPanel({
 
   return (
     <div className={`${className} flex-1 flex-col`}>
-      <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4 sm:px-6">
+      <div className="flex items-center justify-between border-b border-border-soft px-4 py-4 sm:px-6">
         <div className="flex items-center gap-3">
           <button
             type="button"
             aria-label="Back to messages"
             onClick={onBack}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-gray-50 lg:hidden"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-subtle hover:bg-surface-muted lg:hidden"
           >
             <ChevronLeftIcon className="h-5 w-5" />
           </button>
@@ -69,20 +69,20 @@ export default function ChatThreadPanel({
               className="object-cover"
             />
           </div>
-          <p className="truncate text-sm font-semibold text-gray-900">{conversation.providerName}</p>
+          <p className="truncate text-sm font-semibold text-ink">{conversation.providerName}</p>
         </div>
         <button
           type="button"
           aria-label="More options"
-          className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-50"
+          className="flex h-8 w-8 items-center justify-center rounded-full text-faint hover:bg-surface-muted"
         >
           <MoreIcon className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-gray-50 px-4 py-3 sm:px-6">
-        <div className="flex min-w-0 items-center gap-2 text-sm text-gray-700">
-          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-md">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-surface-muted px-4 py-3 sm:px-6">
+        <div className="flex min-w-0 items-center gap-2 text-sm text-body">
+          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-control">
             <Image
               src={conversation.serviceImage}
               alt=""
@@ -95,7 +95,7 @@ export default function ChatThreadPanel({
         </div>
 
         {conversation.completed ? (
-          <span className="flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-600">
+          <span className="flex items-center gap-1.5 rounded-full bg-primary-subtle px-3 py-1.5 text-xs font-semibold text-primary-strong">
             <CheckCircleIcon className="h-4 w-4" />
             Completed
           </span>
@@ -103,14 +103,14 @@ export default function ChatThreadPanel({
           <button
             type="button"
             onClick={() => onMarkCompleted(conversation.id)}
-            className="rounded-md bg-green-500 px-4 py-1.5 text-xs font-semibold text-white hover:bg-green-600"
+            className="rounded-control bg-primary px-4 py-1.5 text-xs font-semibold text-white hover:bg-primary-strong"
           >
             Mark as Completed
           </button>
         ) : (
           <button
             type="button"
-            className="flex items-center gap-1.5 rounded-md border border-green-500 px-4 py-1.5 text-xs font-semibold text-green-600 hover:bg-green-50"
+            className="flex items-center gap-1.5 rounded-control border border-primary px-4 py-1.5 text-xs font-semibold text-primary-strong hover:bg-primary-subtle"
           >
             <PhoneIcon className="h-3.5 w-3.5" />
             Call Provider
@@ -125,10 +125,10 @@ export default function ChatThreadPanel({
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[70%] rounded-2xl px-4 py-3 text-sm whitespace-pre-line ${
+              className={`max-w-[70%] rounded-card px-4 py-3 text-sm whitespace-pre-line ${
                 message.sender === 'user'
-                  ? 'rounded-br-sm bg-green-100 text-gray-900'
-                  : 'rounded-bl-sm bg-gray-100 text-gray-800'
+                  ? 'rounded-br-sm bg-primary-subtle text-ink'
+                  : 'rounded-bl-sm bg-surface-muted text-gray-800'
               }`}
             >
               {message.text}
@@ -137,18 +137,18 @@ export default function ChatThreadPanel({
         ))}
       </div>
 
-      <div className="flex items-center gap-2 border-t border-gray-100 px-4 py-3">
+      <div className="flex items-center gap-2 border-t border-border-soft px-4 py-3">
         <button
           type="button"
           aria-label="Attach image"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-gray-400 hover:bg-gray-50"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-faint hover:bg-surface-muted"
         >
           <ImageIcon className="h-5 w-5" />
         </button>
         <button
           type="button"
           aria-label="Record voice note"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-gray-400 hover:bg-gray-50"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-faint hover:bg-surface-muted"
         >
           <MicrophoneIcon className="h-5 w-5" />
         </button>
@@ -162,7 +162,7 @@ export default function ChatThreadPanel({
             }
           }}
           placeholder="Type a message"
-          className="flex-1 rounded-md border-0 bg-transparent py-2 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none"
+          className="flex-1 rounded-control border-0 bg-transparent py-2 text-sm text-body placeholder:text-faint"
         />
         <button
           type="button"
@@ -170,7 +170,7 @@ export default function ChatThreadPanel({
           disabled={!draft.trim()}
           onClick={handleSend}
           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${
-            draft.trim() ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-100 text-gray-400'
+            draft.trim() ? 'bg-primary text-white hover:bg-primary-strong' : 'bg-surface-muted text-faint'
           }`}
         >
           <PaperPlaneIcon className="h-4 w-4" />

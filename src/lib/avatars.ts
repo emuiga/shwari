@@ -5,6 +5,8 @@ const AVATARS = [
   '/icons/avatars/panda.png',
 ];
 
+export const DEFAULT_AVATAR = AVATARS[0];
+
 export function getRandomAvatar(): string {
   return AVATARS[Math.floor(Math.random() * AVATARS.length)];
 }

@@ -13,8 +13,8 @@ export default function CompareTray() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-30 w-72 rounded-2xl border border-gray-200 bg-white p-4 shadow-xl">
-      <p className="text-sm font-semibold text-gray-900">Compare Services</p>
+    <div className="fixed bottom-6 right-6 z-30 w-72 rounded-card border border-border bg-white p-4 shadow-xl">
+      <p className="text-sm font-semibold text-ink">Compare Services</p>
 
       <div className="mt-3 flex gap-2">
         {compareServices.map((service) => (
@@ -36,17 +36,17 @@ export default function CompareTray() {
         type="button"
         disabled={compareServices.length < 2}
         onClick={() => router.push('/compare')}
-        className="mt-4 w-full rounded-md bg-green-500 py-2 text-sm font-semibold text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:bg-gray-300"
+        className="mt-4 w-full rounded-control bg-primary py-2 text-sm font-semibold text-white hover:bg-primary-strong disabled:cursor-not-allowed disabled:bg-gray-300"
       >
         Compare {compareServices.length} Service{compareServices.length > 1 ? 's' : ''}
       </button>
       {compareServices.length < 2 && (
-        <p className="mt-1.5 text-xs text-gray-400">Add one more service to compare.</p>
+        <p className="mt-1.5 text-xs text-faint">Add one more service to compare.</p>
       )}
       <button
         type="button"
         onClick={clearCompare}
-        className="mt-2 w-full rounded-md border border-gray-200 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+        className="mt-2 w-full rounded-control border border-border py-2 text-sm font-semibold text-body hover:bg-surface-muted"
       >
         Remove all
       </button>

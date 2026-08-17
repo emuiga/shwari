@@ -23,7 +23,7 @@ export default function HeroSection() {
           </div>
           <Link
             href="/login"
-            className="rounded-full border border-white/30 px-5 py-2 text-sm font-medium text-white transition-colors hover:border-green-500 hover:text-green-400"
+            className="rounded-full border border-white/30 px-5 py-2 text-sm font-medium text-white transition-colors hover:border-primary hover:text-green-400"
           >
             Log in
           </Link>
@@ -34,7 +34,7 @@ export default function HeroSection() {
             The Kenyan
             <br />
             <span
-              className={`${fighterFont.className} text-green-500`}
+              className={`${fighterFont.className} text-primary`}
             >
               Moving
             </span>{" "}
@@ -48,7 +48,7 @@ export default function HeroSection() {
           <div className="animate-rise mt-10 flex items-center gap-5 [animation-delay:220ms]">
             <Link
               href="/register"
-              className="rounded-full bg-green-500 px-7 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-green-400"
+              className="rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-green-400"
             >
               Find a mover
             </Link>

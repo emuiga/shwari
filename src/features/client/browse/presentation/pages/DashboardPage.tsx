@@ -22,8 +22,8 @@ export default function DashboardPage() {
 
       <main className="px-6">
         {filteredSections.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-gray-200 py-16 text-center">
-            <p className="text-sm text-gray-500">No services match these filters.</p>
+          <div className="mt-10 rounded-card border border-border py-16 text-center">
+            <p className="text-sm text-subtle">No services match these filters.</p>
           </div>
         ) : (
           filteredSections.map((section) => <ServiceSection key={section.id} section={section} />)

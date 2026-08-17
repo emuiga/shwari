@@ -21,7 +21,7 @@ export default function ManageSubscriptionPage() {
             <h1 className="page-title truncate">Manage Subscription</h1>
             <p className="page-subtitle">Details of your current plan</p>
           </div>
-          <BackButton href="/provider/subscriptions" className="shrink-0" />
+          <BackButton href="/subscriptions" className="shrink-0" />
         </div>
 
         <ManageSubscriptionPanel

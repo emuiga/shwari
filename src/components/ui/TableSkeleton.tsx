@@ -9,7 +9,7 @@ export default function TableSkeleton({ rows, columns }: TableSkeletonProps) {
       {Array.from({ length: rows }).map((_, rowIndex) => (
         <div key={rowIndex} className="flex items-center gap-4 px-4 py-3">
           {Array.from({ length: columns }).map((_, colIndex) => (
-            <div key={colIndex} className="h-4 flex-1 animate-pulse rounded bg-gray-100" />
+            <div key={colIndex} className="h-4 flex-1 animate-pulse rounded bg-surface-muted" />
           ))}
         </div>
       ))}

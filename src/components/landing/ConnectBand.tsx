@@ -38,7 +38,7 @@ export default function ConnectBand() {
       ))}
 
       <div className="relative mx-auto max-w-2xl">
-        <span className="text-xs font-semibold tracking-[0.3em] text-green-700 uppercase">
+        <span className="text-xs font-semibold tracking-[0.3em] text-primary-emphasis uppercase">
           Time to move
         </span>
         <p className="mt-6 font-[family-name:var(--font-heading)] text-2xl leading-snug font-medium tracking-tight text-zinc-900 sm:text-3xl">

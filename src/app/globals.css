@@ -3,6 +3,28 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --brand-primary: #22c55e;
+  --brand-primary-strong: #16a34a;
+  --brand-primary-subtle: #f0fdf4;
+  --brand-primary-emphasis: #15803d;
+
+  --neutral-ink: #111827;
+  --neutral-body: #374151;
+  --neutral-subtle: #6b7280;
+  --neutral-faint: #9ca3af;
+  --neutral-border: #e5e7eb;
+  --neutral-border-soft: #f3f4f6;
+  --neutral-border-strong: #d1d5db;
+  --neutral-surface-muted: #f9fafb;
+
+  --status-danger: #dc2626;
+  --status-danger-soft: #fef2f2;
+  --status-warning: #b45309;
+  --status-warning-soft: #fffbeb;
+
+  --shape-control-radius: 0.375rem;
+  --shape-card-radius: 1rem;
 }
 
 @theme inline {
@@ -10,6 +32,28 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
+
+  --color-primary: var(--brand-primary);
+  --color-primary-strong: var(--brand-primary-strong);
+  --color-primary-subtle: var(--brand-primary-subtle);
+  --color-primary-emphasis: var(--brand-primary-emphasis);
+
+  --color-ink: var(--neutral-ink);
+  --color-body: var(--neutral-body);
+  --color-subtle: var(--neutral-subtle);
+  --color-faint: var(--neutral-faint);
+  --color-border: var(--neutral-border);
+  --color-border-soft: var(--neutral-border-soft);
+  --color-border-strong: var(--neutral-border-strong);
+  --color-surface-muted: var(--neutral-surface-muted);
+
+  --color-danger: var(--status-danger);
+  --color-danger-soft: var(--status-danger-soft);
+  --color-warning: var(--status-warning);
+  --color-warning-soft: var(--status-warning-soft);
+
+  --radius-control: var(--shape-control-radius);
+  --radius-card: var(--shape-card-radius);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,12 +69,26 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
+input:not([type='checkbox']):not([type='radio']),
+select,
+textarea {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:not([type='checkbox']):not([type='radio']):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
+}
+
 .page-title {
-  @apply text-2xl font-semibold tracking-tight text-gray-900;
+  @apply text-2xl font-semibold tracking-tight text-ink;
 }
 
 .page-subtitle {
-  @apply mt-1 text-sm text-gray-500;
+  @apply mt-1 text-sm text-subtle;
 }
 
 @keyframes drive {

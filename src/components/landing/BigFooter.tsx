@@ -24,7 +24,7 @@ export default function BigFooter() {
           </h2>
           <Link
             href="/register"
-            className="mt-10 inline-block rounded-full bg-green-500 px-7 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-green-400"
+            className="mt-10 inline-block rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-green-400"
           >
             Get started
           </Link>
