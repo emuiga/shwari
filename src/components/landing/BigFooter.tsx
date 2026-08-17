@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { fighterFont } from "./fonts";
+import SystemStatusBadge from "./SystemStatusBadge";
 
 export default function BigFooter() {
   return (
@@ -64,9 +65,12 @@ export default function BigFooter() {
               hello@movvapp.com
             </a>
           </nav>
-          <span className="text-zinc-500">
-            &copy; {new Date().getFullYear()} Movvapp, Kenya.
-          </span>
+          <div className="flex flex-col items-center gap-3 sm:items-end">
+            <SystemStatusBadge />
+            <span className="text-zinc-500">
+              &copy; {new Date().getFullYear()} Movvapp, Kenya.
+            </span>
+          </div>
         </div>
       </div>
     </footer>
