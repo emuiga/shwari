@@ -6,52 +6,79 @@ import { useState } from 'react';
 import ProviderHeader from '@/features/provider/shared/presentation/components/ProviderHeader';
 import ServiceAddedModal from '@/features/provider/service-listing/presentation/components/ServiceAddedModal';
 import ServiceListingForm, {
-  fromFormValue,
+  toCreateRequest,
   type ServiceListingFormValue,
 } from '@/features/provider/service-listing/presentation/components/ServiceListingForm';
 import { useServiceListings } from '@/features/provider/service-listing/presentation/context/ServiceListingsContext';
+import { ApiError } from '@/features/auth/data/authApi';
+import type { ServiceCategory } from '@/features/provider/service-listing/data/types';
 
 const EMPTY_FORM: ServiceListingFormValue = {
-  categoryId: '',
-  price: '',
+  categoryCode: '',
+  description: '',
+  priceFrom: '',
+  priceTo: '',
   serviceAreas: [],
-  locations: [],
-  images: [],
+  active: true,
+  mediaIds: [],
 };
 
-export default function CreateServiceListingPage() {
+interface CreateServiceListingPageProps {
+  categories: ServiceCategory[];
+}
+
+export default function CreateServiceListingPage({ categories }: CreateServiceListingPageProps) {
   const router = useRouter();
   const { addListing } = useServiceListings();
   const [value, setValue] = useState<ServiceListingFormValue>(EMPTY_FORM);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit() {
-    addListing(fromFormValue(value));
-    setShowSuccess(true);
+  async function handleSubmit() {
+    setSubmitting(true);
+    setError(null);
+    try {
+      await addListing(toCreateRequest(value));
+      setShowSuccess(true);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
     <div className="min-h-screen w-full bg-white lg:bg-transparent">
       <ProviderHeader />
       <main className="px-4 py-6 sm:px-6">
-        <nav className="mb-6 text-xs text-gray-400">
-          <Link href="/provider/service-listing" className="hover:text-gray-600">
+        <nav className="mb-6 text-xs text-faint">
+          <Link href="/service-listing" className="hover:text-body">
             Home
           </Link>
           <span className="mx-1.5">/</span>
-          <span className="text-gray-600">New Service</span>
+          <span className="text-body">New Service</span>
         </nav>
 
         <h1 className="page-title mb-4">Create New Service Listing</h1>
 
         <div className="mx-auto max-w-3xl">
-          <ServiceListingForm value={value} onChange={setValue} onSubmit={handleSubmit} submitLabel="Submit service listing" />
+          {error && <p className="mb-3 text-sm text-danger">{error}</p>}
+          <ServiceListingForm
+            mode="create"
+            categories={categories}
+            value={value}
+            onChange={setValue}
+            onSubmit={handleSubmit}
+            submitLabel="Submit service listing"
+            submitting={submitting}
+          />
         </div>
       </main>
 
       {showSuccess && (
         <ServiceAddedModal
-          onClose={() => router.push('/provider/service-listing')}
+          onClose={() => router.push('/service-listing')}
           onCreateAnother={() => {
             setValue(EMPTY_FORM);
             setShowSuccess(false);

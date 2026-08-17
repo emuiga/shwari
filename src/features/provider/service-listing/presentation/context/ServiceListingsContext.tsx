@@ -2,36 +2,48 @@
 
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import {
-  initialServiceListings,
-  type ServiceListing,
-} from '@/features/provider/service-listing/presentation/lib/mockServiceListings';
+  createService,
+  deleteService,
+  updateService,
+} from '@/features/provider/service-listing/data/serviceListingApi';
+import type { CreateServiceRequest, UpdateServiceRequest } from '@/features/provider/service-listing/data/types';
+import type { ProviderService } from '@/features/provider/shared/data/types';
 
 interface ServiceListingsContextValue {
-  listings: ServiceListing[];
-  getById: (id: string) => ServiceListing | undefined;
-  addListing: (listing: Omit<ServiceListing, 'id'>) => void;
-  updateListing: (id: string, listing: Omit<ServiceListing, 'id'>) => void;
-  removeListing: (id: string) => void;
+  listings: ProviderService[];
+  getById: (id: string) => ProviderService | undefined;
+  addListing: (payload: CreateServiceRequest) => Promise<void>;
+  updateListing: (id: string, payload: UpdateServiceRequest) => Promise<void>;
+  removeListing: (id: string) => Promise<void>;
 }
 
 const ServiceListingsContext = createContext<ServiceListingsContextValue | null>(null);
 
-export function ServiceListingsProvider({ children }: { children: ReactNode }) {
-  const [listings, setListings] = useState<ServiceListing[]>(initialServiceListings);
+export function ServiceListingsProvider({
+  initialListings,
+  children,
+}: {
+  initialListings: ProviderService[];
+  children: ReactNode;
+}) {
+  const [listings, setListings] = useState<ProviderService[]>(initialListings);
 
   function getById(id: string) {
     return listings.find((listing) => listing.id === id);
   }
 
-  function addListing(listing: Omit<ServiceListing, 'id'>) {
-    setListings((current) => [{ ...listing, id: `listing-${Date.now()}` }, ...current]);
+  async function addListing(payload: CreateServiceRequest) {
+    const created = await createService(payload);
+    setListings((current) => [created, ...current]);
   }
 
-  function updateListing(id: string, listing: Omit<ServiceListing, 'id'>) {
-    setListings((current) => current.map((item) => (item.id === id ? { ...listing, id } : item)));
+  async function updateListing(id: string, payload: UpdateServiceRequest) {
+    const updated = await updateService(id, payload);
+    setListings((current) => current.map((item) => (item.id === id ? updated : item)));
   }
 
-  function removeListing(id: string) {
+  async function removeListing(id: string) {
+    await deleteService(id);
     setListings((current) => current.filter((item) => item.id !== id));
   }
 

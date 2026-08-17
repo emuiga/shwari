@@ -1,147 +1,212 @@
 'use client';
 
 import TagAutocomplete from '@/components/forms/TagAutocomplete';
-import ImageUploader from '@/features/provider/service-listing/presentation/components/ImageUploader';
+import ImageUploader from '@/features/provider/shared/presentation/components/ImageUploader';
 import { NAIROBI_LOCATIONS, searchLocations } from '@/lib/locations';
-import { SERVICE_CATEGORIES, getCategoryById, searchSubcategoriesForCategory } from '@/features/provider/service-listing/presentation/lib/serviceCategories';
-import type { ServiceListing } from '@/features/provider/service-listing/presentation/lib/mockServiceListings';
+import type {
+  CreateServiceRequest,
+  ServiceCategory,
+  UpdateServiceRequest,
+} from '@/features/provider/service-listing/data/types';
+import type { ProviderService } from '@/features/provider/shared/data/types';
 
 export interface ServiceListingFormValue {
-  categoryId: string;
-  price: string;
+  categoryCode: string;
+  description: string;
+  priceFrom: string;
+  priceTo: string;
   serviceAreas: string[];
-  locations: string[];
-  images: string[];
+  active: boolean;
+  mediaIds: string[];
 }
 
 interface ServiceListingFormProps {
+  mode: 'create' | 'edit';
+  categories: ServiceCategory[];
   value: ServiceListingFormValue;
   onChange: (value: ServiceListingFormValue) => void;
   onSubmit: () => void;
   submitLabel: string;
+  submitting?: boolean;
 }
 
 const MAX_IMAGES = 10;
-const PLACEHOLDER_IMAGE = '/images/moving-service.png';
 
-export function toFormValue(listing: ServiceListing): ServiceListingFormValue {
+export function toFormValue(listing: ProviderService): ServiceListingFormValue {
   return {
-    categoryId: listing.categoryId,
-    price: String(listing.price),
-    serviceAreas: listing.serviceAreas,
-    locations: listing.locations,
-    images: listing.images,
+    categoryCode: listing.categoryCode ?? '',
+    description: listing.description ?? '',
+    priceFrom: listing.priceFrom != null ? String(listing.priceFrom) : '',
+    priceTo: listing.priceTo != null ? String(listing.priceTo) : '',
+    serviceAreas: listing.serviceAreas ?? [],
+    active: listing.active ?? true,
+    mediaIds: [],
   };
 }
 
-export function fromFormValue(value: ServiceListingFormValue): Omit<ServiceListing, 'id'> {
+export function toCreateRequest(value: ServiceListingFormValue): CreateServiceRequest {
   return {
-    categoryId: value.categoryId,
-    price: Number(value.price) || 0,
+    categoryCode: value.categoryCode,
+    description: value.description,
+    pricingModel: 'FIXED',
+    priceFrom: Number(value.priceFrom) || 0,
+    priceTo: Number(value.priceTo) || 0,
     serviceAreas: value.serviceAreas,
-    locations: value.locations,
-    images: value.images.length > 0 ? value.images : [PLACEHOLDER_IMAGE],
+    active: value.active,
+    mediaIds: value.mediaIds,
   };
 }
 
-export default function ServiceListingForm({ value, onChange, onSubmit, submitLabel }: ServiceListingFormProps) {
+export function toUpdateRequest(value: ServiceListingFormValue): UpdateServiceRequest {
+  return {
+    categoryCode: value.categoryCode,
+    description: value.description,
+    pricingModel: 'FIXED',
+    priceFrom: Number(value.priceFrom) || 0,
+    priceTo: Number(value.priceTo) || 0,
+    active: value.active,
+  };
+}
+
+export default function ServiceListingForm({
+  mode,
+  categories,
+  value,
+  onChange,
+  onSubmit,
+  submitLabel,
+  submitting,
+}: ServiceListingFormProps) {
   const canSubmit =
-    value.categoryId !== '' && value.price !== '' && value.serviceAreas.length > 0 && value.locations.length > 0;
-  const selectedCategory = getCategoryById(value.categoryId);
+    value.categoryCode !== '' &&
+    value.description.trim() !== '' &&
+    value.priceFrom !== '' &&
+    value.priceTo !== '' &&
+    (mode === 'edit' || value.serviceAreas.length > 0);
 
-  function handleCategoryChange(categoryId: string) {
-    onChange({ ...value, categoryId, serviceAreas: [] });
-  }
+  const fields = (
+    <div className="mt-5 space-y-5">
+      <div>
+        <label className="text-xs font-semibold text-subtle" htmlFor="service-type">
+          Service type
+        </label>
+        <select
+          id="service-type"
+          value={value.categoryCode}
+          onChange={(event) => onChange({ ...value, categoryCode: event.target.value })}
+          className="mt-1 w-full rounded-control border border-border bg-surface-muted px-3 py-2.5 text-sm text-ink"
+        >
+          <option value="">Select service type</option>
+          {categories.map((category) => (
+            <option key={category.code} value={category.code}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-  return (
-    <div className="rounded-2xl border border-gray-200 p-4 sm:p-6">
-      <h1 className="text-lg font-bold text-gray-900">
-        {submitLabel === 'Save Details' ? 'Edit a Service' : 'Create New Service'}
-      </h1>
-
-      <div className="mt-5 grid items-start gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold text-gray-500" htmlFor="service-type">
-              Service type
-            </label>
-            {value.categoryId !== '' && (
-              <button
-                type="button"
-                onClick={() => handleCategoryChange('')}
-                className="text-xs font-semibold text-gray-400 hover:text-red-500"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-          <select
-            id="service-type"
-            value={value.categoryId}
-            onChange={(event) => handleCategoryChange(event.target.value)}
-            className="mt-1 w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:outline-none"
-          >
-            <option value="">Select service type</option>
-            {SERVICE_CATEGORIES.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className="text-xs font-semibold text-gray-500" htmlFor="price">
-            Price (Kes)
+          <label className="text-xs font-semibold text-subtle" htmlFor="priceFrom">
+            Price from (KES)
           </label>
           <input
-            id="price"
+            id="priceFrom"
             type="number"
-            value={value.price}
-            onChange={(event) => onChange({ ...value, price: event.target.value })}
-            placeholder="Enter max price for the service"
-            className="mt-1 w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+            value={value.priceFrom}
+            onChange={(event) => onChange({ ...value, priceFrom: event.target.value })}
+            placeholder="5000"
+            className="mt-1 w-full rounded-control border border-border bg-surface-muted px-3 py-2.5 text-sm text-ink placeholder:text-faint"
           />
         </div>
+        <div>
+          <label className="text-xs font-semibold text-subtle" htmlFor="priceTo">
+            Price to (KES)
+          </label>
+          <input
+            id="priceTo"
+            type="number"
+            value={value.priceTo}
+            onChange={(event) => onChange({ ...value, priceTo: event.target.value })}
+            placeholder="25000"
+            className="mt-1 w-full rounded-control border border-border bg-surface-muted px-3 py-2.5 text-sm text-ink placeholder:text-faint"
+          />
+        </div>
+      </div>
 
+      <div>
+        <label className="text-xs font-semibold text-subtle" htmlFor="description">
+          Description
+        </label>
+        <textarea
+          id="description"
+          value={value.description}
+          onChange={(event) => onChange({ ...value, description: event.target.value })}
+          rows={3}
+          placeholder="Describe what this service covers"
+          className="mt-1 w-full rounded-control border border-border bg-surface-muted px-3 py-2.5 text-sm text-ink placeholder:text-faint"
+        />
+      </div>
+
+      {mode === 'create' && (
         <TagAutocomplete
-          label={selectedCategory ? `Service areas - ${selectedCategory.label}` : 'Service areas'}
+          label="Service areas"
           values={value.serviceAreas}
           onChange={(serviceAreas) => onChange({ ...value, serviceAreas })}
-          suggestions={(query) => (selectedCategory ? searchSubcategoriesForCategory(selectedCategory.id, query) : [])}
-          placeholder={selectedCategory ? 'Search service areas' : 'Select a service type first'}
-          disabled={!selectedCategory}
-        />
-
-        <TagAutocomplete
-          label="Locations covered"
-          values={value.locations}
-          onChange={(locations) => onChange({ ...value, locations })}
           suggestions={searchLocations}
           placeholder="Search for locations"
           quickSelect={{ label: 'Whole Nairobi Area', values: NAIROBI_LOCATIONS }}
         />
+      )}
 
-        <div className="sm:col-span-2">
-          <ImageUploader
-            label="Upload Upto 10 Images"
-            images={value.images}
-            onChange={(images) => onChange({ ...value, images })}
-            maxImages={MAX_IMAGES}
-          />
-        </div>
-      </div>
+      <label className="flex items-center gap-2 text-sm font-medium text-body">
+        <input
+          type="checkbox"
+          checked={value.active}
+          onChange={(event) => onChange({ ...value, active: event.target.checked })}
+          className="h-4 w-4 rounded border-border-strong text-primary focus:ring-primary"
+        />
+        Active — visible to customers
+      </label>
 
-      <div className="mt-6 flex justify-end">
-        <button
-          type="button"
-          disabled={!canSubmit}
-          onClick={onSubmit}
-          className="w-full rounded-md bg-green-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-        >
-          {submitLabel}
-        </button>
-      </div>
+      {mode === 'create' && (
+        <ImageUploader
+          label="Upload Upto 10 Images"
+          purpose="SERVICE"
+          onChange={(mediaIds) => onChange({ ...value, mediaIds })}
+          maxImages={MAX_IMAGES}
+        />
+      )}
+    </div>
+  );
+
+  const submitButton = (
+    <div className="mt-6 flex justify-end">
+      <button
+        type="button"
+        disabled={!canSubmit || submitting}
+        onClick={onSubmit}
+        className="w-full rounded-control bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-strong disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+      >
+        {submitting ? 'Saving…' : submitLabel}
+      </button>
+    </div>
+  );
+
+  if (mode === 'edit') {
+    return (
+      <>
+        {fields}
+        {submitButton}
+      </>
+    );
+  }
+
+  return (
+    <div className="rounded-card border border-border p-4 sm:p-6">
+      <h1 className="text-lg font-bold text-ink">Create New Service</h1>
+      {fields}
+      {submitButton}
     </div>
   );
 }
