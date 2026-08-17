@@ -1,3 +1,3 @@
-import MessagesPage from '@/features/client/messages/presentation/pages/MessagesPage';
+import MessagesPage from '@/features/shared/presentation/pages/MessagesPage';
 
 export default MessagesPage;
