@@ -3,7 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ChevronDownIcon } from '@/components/icons';
+import { logout } from '@/features/auth/data/authApi';
+import { useActiveRole } from '@/features/auth/presentation/context/ActiveRoleContext';
+import { useSwitchProfile } from '@/features/auth/presentation/hooks/useSwitchProfile';
 
 interface ProfileMenuProps {
   avatarSrc: string;
@@ -16,7 +20,11 @@ const MENU_ITEMS = [
 ];
 
 export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const { memberships } = useActiveRole();
+  const { switchTo, switching, error } = useSwitchProfile();
+  const canSwitchToProvider = memberships.includes('SERVICE_PROVIDER');
 
   return (
     <div className="relative">
@@ -42,7 +50,7 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
           />
         </div>
         <ChevronDownIcon
-          className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-4 w-4 text-faint transition-transform ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -54,25 +62,43 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
             onClick={() => setIsOpen(false)}
             className="fixed inset-0 z-10 cursor-default"
           />
-          <div className="absolute right-0 z-20 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-1.5 shadow-lg">
+          <div className="absolute right-0 z-20 mt-2 w-48 rounded-xl border border-border-soft bg-white py-1.5 shadow-lg">
             {MENU_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                className="block w-full px-4 py-2 text-left text-sm text-body hover:bg-surface-muted"
               >
                 {item.label}
               </Link>
             ))}
-            <div className="my-1.5 border-t border-gray-100" />
-            <Link
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-50"
+            {canSwitchToProvider && (
+              <>
+                <div className="my-1.5 border-t border-border-soft" />
+                <button
+                  type="button"
+                  disabled={switching}
+                  onClick={() => switchTo('SERVICE_PROVIDER')}
+                  className="block w-full px-4 py-2 text-left text-sm text-body hover:bg-surface-muted disabled:opacity-50"
+                >
+                  {switching ? 'Switching…' : 'Switch to Provider'}
+                </button>
+                {error && <p className="px-4 pb-1 text-xs text-danger">{error}</p>}
+              </>
+            )}
+            <div className="my-1.5 border-t border-border-soft" />
+            <button
+              type="button"
+              onClick={async () => {
+                setIsOpen(false);
+                await logout();
+                router.push('/login');
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-danger hover:bg-surface-muted"
             >
               Log out
-            </Link>
+            </button>
           </div>
         </>
       )}
