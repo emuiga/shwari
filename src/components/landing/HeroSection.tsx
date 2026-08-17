@@ -21,12 +21,26 @@ export default function HeroSection() {
               Movvapp
             </span>
           </div>
-          <Link
-            href="/login"
-            className="rounded-full border border-white/30 px-5 py-2 text-sm font-medium text-white transition-colors hover:border-primary hover:text-green-400"
-          >
-            Log in
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/services"
+              className="text-sm font-medium text-white/80 transition-colors hover:text-green-400"
+            >
+              Services
+            </Link>
+            <Link
+              href="/pricing"
+              className="text-sm font-medium text-white/80 transition-colors hover:text-green-400"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/login"
+              className="rounded-full border border-white/30 px-5 py-2 text-sm font-medium text-white transition-colors hover:border-primary hover:text-green-400"
+            >
+              Log in
+            </Link>
+          </div>
         </nav>
 
         <div className="flex flex-1 flex-col items-center justify-center text-center">

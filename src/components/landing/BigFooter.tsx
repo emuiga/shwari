@@ -47,6 +47,12 @@ export default function BigFooter() {
             Movvapp
           </span>
           <nav className="flex flex-wrap gap-x-8 gap-y-3">
+            <Link href="/services" className="hover:text-white">
+              Services
+            </Link>
+            <Link href="/pricing" className="hover:text-white">
+              Pricing
+            </Link>
             <Link href="/login" className="hover:text-white">
               Log in
             </Link>
