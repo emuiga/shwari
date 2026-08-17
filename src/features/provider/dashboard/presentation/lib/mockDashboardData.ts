@@ -13,15 +13,6 @@ export interface RecentLead {
   status: 'new' | 'contacted';
 }
 
-export interface RecentReview {
-  id: string;
-  customerName: string;
-  rating: number;
-  comment: string;
-  service: string;
-  createdAt: string;
-}
-
 export const dashboardStats: DashboardStat[] = [
   { label: 'Active Service Listings', value: 3 },
   { label: 'New Leads', value: 5, trend: { value: 12, isPositive: true } },
@@ -53,24 +44,5 @@ export const recentLeads: RecentLead[] = [
     location: 'Kasarani, Nairobi',
     requestedAt: '2026-07-11T11:05:00.000Z',
     status: 'contacted',
-  },
-];
-
-export const recentReviews: RecentReview[] = [
-  {
-    id: 'review-1',
-    customerName: 'Peter Mwangi',
-    rating: 5,
-    comment: 'Very professional team, moved everything without a scratch.',
-    service: 'House moving',
-    createdAt: '2026-07-10T08:00:00.000Z',
-  },
-  {
-    id: 'review-2',
-    customerName: 'Faith Njeri',
-    rating: 4,
-    comment: 'Good service, arrived a bit late but handled items with care.',
-    service: 'Office relocation',
-    createdAt: '2026-07-08T13:30:00.000Z',
   },
 ];

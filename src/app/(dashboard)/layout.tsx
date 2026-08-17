@@ -1,26 +1,56 @@
 import { CompareProvider } from '@/features/client/saved/presentation/context/CompareContext';
-import DashboardShell from '@/features/client/shared/presentation/components/DashboardShell';
 import { MessagesProvider } from '@/features/client/messages/presentation/context/MessagesContext';
 import { SavedServicesProvider } from '@/features/client/saved/presentation/context/SavedServicesContext';
 import { ServiceRequestsProvider } from '@/features/client/requests/presentation/context/ServiceRequestsContext';
+import { ServiceListingsProvider } from '@/features/provider/service-listing/presentation/context/ServiceListingsContext';
+import { SubscriptionProvider } from '@/features/provider/subscriptions/presentation/context/SubscriptionContext';
 import { SidebarProvider } from '@/lib/context/SidebarContext';
+import { ActiveRoleProvider } from '@/features/auth/presentation/context/ActiveRoleContext';
+import RoleShell from '@/features/shared/presentation/components/RoleShell';
+import { redirect } from 'next/navigation';
+import { getActiveRoleCookie } from '@/lib/auth/activeRoleCookie';
+import {
+  getMyProviderProfileServer,
+  getMyServicesServer,
+} from '@/features/provider/shared/data/providerProfileApi.server';
 
-export default function DashboardGroupLayout({
+export default async function DashboardGroupLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const activeRole = await getActiveRoleCookie();
+  const isProvider = activeRole?.role === 'SERVICE_PROVIDER';
+
+  if (isProvider) {
+    const providerProfile = await getMyProviderProfileServer();
+    if (!providerProfile?.businessName) {
+      redirect('/provider-onboarding');
+    }
+  }
+
+  const services = isProvider ? await getMyServicesServer() : [];
+
   return (
-    <CompareProvider>
-      <SavedServicesProvider>
-        <ServiceRequestsProvider>
-          <MessagesProvider>
-            <SidebarProvider>
-              <DashboardShell>{children}</DashboardShell>
-            </SidebarProvider>
-          </MessagesProvider>
-        </ServiceRequestsProvider>
-      </SavedServicesProvider>
-    </CompareProvider>
+    <ActiveRoleProvider
+      initialRole={activeRole?.role ?? null}
+      initialMemberships={activeRole?.memberships ?? []}
+    >
+      <CompareProvider>
+        <SavedServicesProvider>
+          <ServiceRequestsProvider>
+            <MessagesProvider>
+              <ServiceListingsProvider initialListings={services}>
+                <SubscriptionProvider>
+                  <SidebarProvider>
+                    <RoleShell>{children}</RoleShell>
+                  </SidebarProvider>
+                </SubscriptionProvider>
+              </ServiceListingsProvider>
+            </MessagesProvider>
+          </ServiceRequestsProvider>
+        </SavedServicesProvider>
+      </CompareProvider>
+    </ActiveRoleProvider>
   );
 }
