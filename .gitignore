@@ -44,3 +44,6 @@ next-env.d.ts
 PROJECT_CONTEXT.md
 CLAUDE.md
 AGENTS.md
+
+# local API reference, not for commit
+/api/*.postman_collection.json
