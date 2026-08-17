@@ -73,20 +73,21 @@ export default function ProfileMenu({ avatarSrc }: ProfileMenuProps) {
                 {item.label}
               </Link>
             ))}
-            {canSwitchToProvider && (
-              <>
-                <div className="my-1.5 border-t border-border-soft" />
-                <button
-                  type="button"
-                  disabled={switching}
-                  onClick={() => switchTo('SERVICE_PROVIDER')}
-                  className="block w-full px-4 py-2 text-left text-sm text-body hover:bg-surface-muted disabled:opacity-50"
-                >
-                  {switching ? 'Switching…' : 'Switch to Provider'}
-                </button>
-                {error && <p className="px-4 pb-1 text-xs text-danger">{error}</p>}
-              </>
-            )}
+            <div className="my-1.5 border-t border-border-soft" />
+            <button
+              type="button"
+              disabled={!canSwitchToProvider || switching}
+              title={canSwitchToProvider ? undefined : "You don't have a service provider account yet."}
+              onClick={() => canSwitchToProvider && switchTo('SERVICE_PROVIDER')}
+              className={
+                canSwitchToProvider
+                  ? 'block w-full px-4 py-2 text-left text-sm text-body hover:bg-surface-muted disabled:opacity-50'
+                  : 'block w-full cursor-not-allowed px-4 py-2 text-left text-sm text-faint'
+              }
+            >
+              {switching ? 'Switching…' : 'Switch to Provider'}
+            </button>
+            {canSwitchToProvider && error && <p className="px-4 pb-1 text-xs text-danger">{error}</p>}
             <div className="my-1.5 border-t border-border-soft" />
             <button
               type="button"

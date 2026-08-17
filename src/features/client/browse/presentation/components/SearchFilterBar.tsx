@@ -2,154 +2,105 @@
 
 import { useState } from 'react';
 import { SearchIcon } from '@/components/icons';
-import LocationAutocomplete from '@/features/client/browse/presentation/components/LocationAutocomplete';
-import MaskIcon from '@/components/MaskIcon';
-import {
-  countActiveFilters,
-  defaultServiceFilters,
-  type ServiceFilters,
-} from '@/features/client/shared/presentation/lib/serviceFilters';
+import type { ServiceCategory } from '@/features/provider/service-listing/data/types';
+import type { ProviderSearchParams } from '@/features/client/browse/data/types';
 
 interface SearchFilterBarProps {
-  filters: ServiceFilters;
-  onFiltersChange: (filters: ServiceFilters) => void;
+  categories: ServiceCategory[];
+  onSearch: (params: ProviderSearchParams) => void;
+  searching: boolean;
 }
 
-export default function SearchFilterBar({ filters, onFiltersChange }: SearchFilterBarProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const activeCount = countActiveFilters(filters);
+const RADIUS_OPTIONS = [5, 10, 20, 50];
+
+export default function SearchFilterBar({ categories, onSearch, searching }: SearchFilterBarProps) {
+  const [serviceType, setServiceType] = useState(categories[0]?.code ?? '');
+  const [radiusKm, setRadiusKm] = useState(20);
+  const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  function detectLocation() {
+    if (!navigator.geolocation) {
+      setError('Location detection is not supported on this browser.');
+      return;
+    }
+    setLocating(true);
+    setError(null);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setCoords({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+        setLocating(false);
+      },
+      () => {
+        setError('Could not detect your location. Please allow location access and try again.');
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  }
+
+  function handleSearch() {
+    if (!serviceType) {
+      setError('Choose a service type.');
+      return;
+    }
+    if (!coords) {
+      setError('Set your location to search nearby movers.');
+      return;
+    }
+    setError(null);
+    onSearch({ serviceType, latitude: coords.latitude, longitude: coords.longitude, radiusKm });
+  }
 
   return (
-    <div className="relative flex flex-col items-stretch gap-3 border-b border-border-soft bg-surface-muted px-4 py-4 sm:flex-row sm:items-center sm:justify-center sm:px-6 sm:py-6">
-      <div className="flex w-full flex-col rounded-card border border-border bg-white shadow-sm transition-shadow focus-within:shadow-md sm:max-w-2xl sm:flex-row sm:items-center">
-        <LocationAutocomplete
-          label="Moving From"
-          placeholder="Search origin"
-          dropdownHeading="Origin"
-        />
-        <div className="h-px w-full bg-gray-200 sm:h-9 sm:w-px" />
-        <LocationAutocomplete
-          label="Moving To"
-          placeholder="Search destination"
-          dropdownHeading="Destination"
-        />
+    <div className="flex flex-col items-stretch gap-3 border-b border-border-soft bg-surface-muted px-4 py-4 sm:px-6 sm:py-6">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-card border border-border bg-white p-3 shadow-sm sm:flex-row sm:items-center">
+        <select
+          value={serviceType}
+          onChange={(event) => setServiceType(event.target.value)}
+          className="flex-1 rounded-control border border-border-strong px-3 py-2.5 text-sm text-ink focus:border-primary"
+        >
+          {categories.map((category) => (
+            <option key={category.id} value={category.code}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+
         <button
           type="button"
-          className="m-2 flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-primary-strong sm:mr-2 sm:ml-0"
+          onClick={detectLocation}
+          disabled={locating}
+          className="flex items-center justify-center gap-2 rounded-control border border-border-strong px-3 py-2.5 text-sm font-semibold text-body hover:bg-surface-muted disabled:opacity-50"
+        >
+          {locating ? 'Detecting…' : coords ? 'Location set ✓' : 'Use my location'}
+        </button>
+
+        <select
+          value={radiusKm}
+          onChange={(event) => setRadiusKm(Number(event.target.value))}
+          className="rounded-control border border-border-strong px-3 py-2.5 text-sm text-ink focus:border-primary"
+        >
+          {RADIUS_OPTIONS.map((km) => (
+            <option key={km} value={km}>
+              Within {km} km
+            </option>
+          ))}
+        </select>
+
+        <button
+          type="button"
+          onClick={handleSearch}
+          disabled={searching}
+          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-primary-strong disabled:opacity-50"
         >
           <SearchIcon className="h-4 w-4 shrink-0" />
-          Search
+          {searching ? 'Searching…' : 'Search'}
         </button>
       </div>
 
-      <div className="relative shrink-0">
-        <button
-          type="button"
-          onClick={() => setIsOpen((open) => !open)}
-          className={`relative flex w-full items-center justify-center gap-2 rounded-card border px-5 py-3.5 text-sm font-medium shadow-sm sm:w-auto ${
-            activeCount > 0
-              ? 'border-primary bg-primary-subtle text-primary-strong'
-              : 'border-border bg-white text-body hover:bg-surface-muted'
-          }`}
-        >
-          <MaskIcon
-            label="Filters"
-            maskClassName="[mask-image:url('/icons/filter.png')] [-webkit-mask-image:url('/icons/filter.png')]"
-            className="h-4 w-4"
-          />
-          Filters
-          {activeCount > 0 && (
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-white">
-              {activeCount}
-            </span>
-          )}
-        </button>
-
-        {isOpen && (
-          <>
-            <button
-              type="button"
-              aria-label="Close filters"
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-10 cursor-default"
-            />
-            <div className="absolute right-0 z-20 mt-2 w-[calc(100vw-2rem)] max-w-72 rounded-card border border-border-soft bg-white p-4 shadow-lg">
-              <label className="block text-xs font-semibold text-subtle uppercase">
-                Price range
-                <select
-                  value={filters.priceRange}
-                  onChange={(event) =>
-                    onFiltersChange({
-                      ...filters,
-                      priceRange: event.target.value as ServiceFilters['priceRange'],
-                    })
-                  }
-                  className="mt-1.5 w-full rounded-control border border-border px-3 py-2 text-sm font-normal text-body normal-case focus:border-primary"
-                >
-                  <option value="any">Any price</option>
-                  <option value="under-25k">Under KES 25,000</option>
-                  <option value="25k-40k">KES 25,000 – 40,000</option>
-                  <option value="over-40k">Over KES 40,000</option>
-                </select>
-              </label>
-
-              <label className="mt-4 block text-xs font-semibold text-subtle uppercase">
-                Minimum rating
-                <select
-                  value={filters.minRating}
-                  onChange={(event) =>
-                    onFiltersChange({
-                      ...filters,
-                      minRating: event.target.value as ServiceFilters['minRating'],
-                    })
-                  }
-                  className="mt-1.5 w-full rounded-control border border-border px-3 py-2 text-sm font-normal text-body normal-case focus:border-primary"
-                >
-                  <option value="any">Any rating</option>
-                  <option value="4.5">4.5 stars & up</option>
-                  <option value="4.0">4.0 stars & up</option>
-                </select>
-              </label>
-
-              <label className="mt-4 block text-xs font-semibold text-subtle uppercase">
-                Sort by
-                <select
-                  value={filters.sortBy}
-                  onChange={(event) =>
-                    onFiltersChange({
-                      ...filters,
-                      sortBy: event.target.value as ServiceFilters['sortBy'],
-                    })
-                  }
-                  className="mt-1.5 w-full rounded-control border border-border px-3 py-2 text-sm font-normal text-body normal-case focus:border-primary"
-                >
-                  <option value="default">Recommended</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="rating-desc">Top rated</option>
-                </select>
-              </label>
-
-              <div className="mt-4 flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => onFiltersChange(defaultServiceFilters)}
-                  className="flex-1 rounded-control border border-border py-2 text-sm font-semibold text-body hover:bg-surface-muted"
-                >
-                  Reset filters
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  className="flex-1 rounded-control bg-primary py-2 text-sm font-semibold text-white hover:bg-primary-strong"
-                >
-                  Done
-                </button>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+      {error && <p className="mx-auto text-xs text-danger">{error}</p>}
     </div>
   );
 }
