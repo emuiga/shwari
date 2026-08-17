@@ -13,6 +13,7 @@ export default function BigFooter() {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40" />
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-zinc-950 to-transparent" />
 
       <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-between gap-16 px-6 py-16 sm:px-8 lg:py-20">
         <div className="max-w-2xl text-center sm:text-left">
